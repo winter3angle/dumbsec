@@ -47,6 +47,8 @@ chk_dir_exists "$OUTPUT_DIR" "output dir"
 chk_dir_exists "$VENV_DIR" "pelican virtualenv"
 chk_file_readable "$PELICAN_CONF_FILE" "pelican config"
 chk_file_readable "$VENV_ACT_FILE" "virtualenv activation file"
+chk_app_avail git
+chk_app_avail pelican
 
 cd "$CONTENT_DIR"
 git fetch origin master
