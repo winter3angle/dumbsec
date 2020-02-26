@@ -35,13 +35,15 @@ if [[ "$1" == "" ]]; then
 fi
 
 THEME_DIR="$1"
-CONTENT_DIR="$2"
+CONTENT_ROOT_DIR="$2"
+CONTENT_DIR="$CONTENT_ROOT_DIR/content"
 OUTPUT_DIR="$3"
 VENV_DIR="$THEME_DIR/venv"
-PELICAN_CONF_FILE="$CONTENT_DIR/pelicanconf.py"
+PELICAN_CONF_FILE="$CONTENT_ROOT_DIR/pelicanconf.py"
 VENV_ACT_FILE="$VENV_DIR/bin/activate"
 
 chk_dir_exists "$THEME_DIR" "theme dir"
+chk_dir_exists "$CONTENT_ROOT_DIR" "content root dir"
 chk_dir_exists "$CONTENT_DIR" "content dir"
 chk_dir_exists "$OUTPUT_DIR" "output dir"
 chk_dir_exists "$VENV_DIR" "pelican virtualenv"
@@ -50,7 +52,7 @@ chk_file_readable "$VENV_ACT_FILE" "virtualenv activation file"
 chk_app_avail git
 chk_app_avail pelican
 
-cd "$CONTENT_DIR"
+cd "$CONTENT_ROOT_DIR"
 git fetch origin master
 git reset --hard FETCH_HEAD
 source "$VENV_ACT_FILE"
