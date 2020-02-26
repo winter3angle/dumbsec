@@ -38,7 +38,7 @@ THEME_DIR="$1"
 CONTENT_DIR="$2"
 OUTPUT_DIR="$3"
 VENV_DIR="$THEME_DIR/venv"
-PELICAN_CONF_FILE="$THEME_DIR/pelicanconf.py"
+PELICAN_CONF_FILE="$CONTENT_DIR/pelicanconf.py"
 VENV_ACT_FILE="$VENV_DIR/bin/activate"
 
 chk_dir_exists "$THEME_DIR" "theme dir"
