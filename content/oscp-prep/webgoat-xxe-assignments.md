@@ -54,7 +54,7 @@ exception if we provide something unexpected for it:
 {
   "lessonCompleted" : false,
   "feedback" : "You are posting XML but there is no XXE attack performed",
-  "output" : "<SNIP>unexpected element (uri:\\\"\\\", local:\\\"text\\\"). Expected elements are <{}comment>]<SNIP>"
+  "output" : "<SNIP>...Expected elements are <{}comment>]...<SNIP>"
 }
 ```
 
