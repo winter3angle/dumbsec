@@ -5,11 +5,11 @@ Tags: websec, webgoat, xxe
 Summary: Solutions for WebGoat 8 XXE tasks
 Status: draft
 
-#### Intro: simple xxe (as dubbed by authors)  
-We should abuse XXE vulnerability to list root directory content on the server.  
+#### Intro: simple xxe (as dubbed by authors)
+We should abuse XXE vulnerability to list root directory content on the server.
 The only entry point is a comment field under some poor cat's photo which got a hanger around his neck :)  
-Upon clicking on submit button, client app makes a request with `Content-Type` header set to `application/xml`  hencethe request body contain XML payload.  
-It's not a sort of convoluted document, just a couple of tags:  
+Upon clicking on submit button, client app makes a request with `Content-Type` header set to `application/xml` hence the request body contain XML payload.
+It's not a sort of convoluted document, just a couple of tags:
 ```xml
 <?xml version="1.0"?>
 <comment>  
@@ -18,7 +18,7 @@ It's not a sort of convoluted document, just a couple of tags:
 ```
 
 
-Solution is almost straightforward and based on previous section about XXE:  
+Solution is almost straightforward and based on previous section about XXE:
 ```
 <?xml version="1.0"?>
 <!DOCTYPE foo [<!ENTITY ex SYSTEM "file:/">]>
@@ -27,7 +27,7 @@ Solution is almost straightforward and based on previous section about XXE:
 </comment>
 ```
 
-Result:  
+Result:
 ```json
 {
   "lessonCompleted" : true,
@@ -37,9 +37,8 @@ Result:
 }
 ```
 
-Here we instruct XML parser to include content of provided SYSTEM identifier that points to root directory.  
-It could be assumed that SYSTEM identifier means just an URI to some kind of resource, theoretically it could use  
-any scheme such as http or ftp, it our case we need a local directory content hence scheme is `file`.  
-Omitted trailing slashes does not seem to have any effect in that case, it will for either with `file:///` or with `file:/`.  
-As far as I know one constraint to this kind of identifiers is that they should not contain URI fragments - parts that go after a sharp (#).  
-For example `http://foo.bar/?a=b#baz` is fragmented and `http://foo.bar/?a=b` is not.  
+Here we instruct XML parser to include content of provided SYSTEM identifier that points to root directory.
+It could be assumed that SYSTEM identifier means just an URI to some kind of resource, theoretically it could use any scheme such as http or ftp, it our case we need a local directory content hence scheme is `file`.  
+Omitted trailing slashes does not seem to have any effect in that case, it will work either with `file:///` or with `file:/`.
+As far as I know one constraint to this kind of identifiers is that they should not contain URI fragments - parts that go after a sharp (#).
+For example `http://foo.bar/?a=b#baz` is fragmented and `http://foo.bar/?a=b` is not.
