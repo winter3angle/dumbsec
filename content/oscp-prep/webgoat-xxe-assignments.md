@@ -82,9 +82,10 @@ Let's check whether the application is vulnerable. Issue request with body simil
 </comment>
 ```
 Hooray, we've got a request in WebWolf log! It's indeed vulnerable, now we have to exfiltrate secret key from the server. We may do it using OOB (out-of-band) channel, in our case simplest is the request URI itself. So we need to construct such an entity that will reference URI like `http://localhost:9090/<SECRET_FILE_CONTENT>`. It's not that hard, we have to do three steps:  
- 1. Construct DTD file which read secret file and declare entity with crafted URI based on this content
- 2. Upload that DTD to controlled server which attacked application can access. In our case it's WebWolf
- 3. Craft or tamper comment posting request so that we will include DTD from our server which afterwards will try to include another one exfiltrating file content
+
+1. Construct DTD file which include secret file and declare entity with crafted URI based on this content
+2. Upload that DTD to controlled server which attacked application can access. In our case it's WebWolf
+3. Craft or tamper comment posting request so that we will include DTD from our server which afterwards will try to include another one exfiltrating file content
 
 Time to practice. Little bit of googling and we've got a malicious DTD:
 ```xml
