@@ -2,7 +2,7 @@ Title: Road to OSCP: WebGoat A7 XSS assignments
 Category: OSCP
 Tags: websec, webgoat, xss
 Date: 02/03/2020 14:00
-Status: draft
+Status: published
 
 #### What is XSS?
 Not a challenge at all, it could be passed even without following steps. The answer is 'yes' since URIs are equal. 
