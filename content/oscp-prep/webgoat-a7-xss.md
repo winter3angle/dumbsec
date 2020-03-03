@@ -3,6 +3,7 @@ Category: OSCP
 Tags: websec, webgoat, xss
 Date: 02/03/2020 14:00
 Status: published
+Summary: A very short 'writeup' on XSS tasks from WebGoat 8
 
 #### What is XSS?
 Not a challenge at all, it could be passed even without following steps. The answer is 'yes' since URIs are equal. 
