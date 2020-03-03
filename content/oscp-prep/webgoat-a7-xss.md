@@ -1,7 +1,7 @@
 Title: Road to OSCP: WebGoat A7 XSS assignments
 Category: OSCP
 Tags: websec, webgoat, xss
-Date: 02/03/2020 14:00
+Date: 2020-03-02 14:00
 Status: published
 Summary: A very short 'writeup' on XSS tasks from WebGoat 8
 
