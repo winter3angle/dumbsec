@@ -3,7 +3,7 @@ Summary: Super short notes about two SSRF tasks
 Category: OSCP
 Tags: webgoat, websec, ssrf
 Date: 2020-03-14 00:30
-Status: draft
+Status: published
 
 #### Change the URL to display Jerry
 Task name literally points how to solve it. There is an `url` request parameter that by default is set to `images%2Ftom.png`, to complete this it's necessary to change `tom` to `jerry`.
