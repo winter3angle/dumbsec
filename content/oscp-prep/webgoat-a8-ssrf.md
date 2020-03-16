@@ -1,4 +1,4 @@
-Title: Road ro OSCP: WebGoat A8: SSRF
+Title: Road to OSCP: WebGoat A8: SSRF
 Summary: Super short notes about two SSRF tasks
 Category: OSCP
 Tags: webgoat, websec, ssrf
