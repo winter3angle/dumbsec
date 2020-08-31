@@ -56,5 +56,5 @@ cd "$CONTENT_ROOT_DIR"
 git fetch origin master
 git reset --hard FETCH_HEAD
 source "$VENV_ACT_FILE"
-pelican -t "$THEME_DIR" -o "$OUTPUT_DIR" --delete-output-directory --ignore-cache -s "$PELICAN_CONF_FILE" "$CONTENT_DIR"
+python3 -m pelican -t "$THEME_DIR" -o "$OUTPUT_DIR" --delete-output-directory --ignore-cache -s "$PELICAN_CONF_FILE" "$CONTENT_DIR"
 deactivate
