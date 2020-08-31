@@ -9,7 +9,9 @@ Starting series of writeups for a list of machines compiled by TJNull in his wel
 
 # Enumeration
 Let's dig into this box. We are not restricted with traffic amount or something like that, so I just spinned up the full nmap scan with `-sS`:
+
 <pre>
+
     # Nmap 7.80 scan initiated Wed Aug 26 12:28:33 2020 as: nmap -sS -p- -oA nmap/nmap-ss-all 10.10.10.4
     Nmap scan report for legacy.htb (10.10.10.4)
     Host is up (0.12s latency).
@@ -20,11 +22,14 @@ Let's dig into this box. We are not restricted with traffic amount or something 
     3389/tcp closed ms-wbt-server
 
     # Nmap done at Wed Aug 26 12:31:39 2020 -- 1 IP address (1 host up) scanned in 186.30 seconds
+
 </pre>
 Unfortunately, SMB server does not allow anonymous logon since `smbclient -N -L \\\\10.10.10.4\\` fails.
 
 Not much ports open there, seems to be only SMB server available at the time. Let's try to dig some more with `-A` and `-sV` on discovered ports:
+
 <pre>
+
     # Nmap 7.80 scan initiated Wed Aug 26 12:35:32 2020 as: nmap -A -T4 -sV -O -p139,445 -oA nmap/nmap-AT4sVO-open 10.10.10.4
     Nmap scan report for legacy.htb (10.10.10.4)
     Host is up (0.18s latency).
@@ -68,12 +73,13 @@ Not much ports open there, seems to be only SMB server available at the time. Le
 
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     # Nmap done at Wed Aug 26 12:36:36 2020 -- 1 IP address (1 host up) scanned in 63.88 seconds
-</pre>
 
+</pre>
 Well it's really seems to be _legacy_ since nmap suggests that this box running Windows XP. Though these results may not be accurate, `smb-os-discovery` also
 suggests so, I'll take a mental note about this - it might be vulnerable to some antediluvian vulnerabilities.  
 Nmap has some more interesting scripts for SMB, worth trying to scan using them:
 <pre>
+
     # Nmap 7.80 scan initiated Wed Aug 26 12:49:00 2020 as: nmap -p445,139 --script=smb-vuln* -oA nmap/smb-vuln-mass 10.10.10.4
     Nmap scan report for legacy.htb (10.10.10.4)
     Host is up (0.12s latency).
@@ -114,8 +120,8 @@ Nmap has some more interesting scripts for SMB, worth trying to scan using them:
     |_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0143
 
     # Nmap done at Wed Aug 26 12:49:07 2020 -- 1 IP address (1 host up) scanned in 7.25 seconds
-</pre>
 
+</pre>
 Gotcha! Notice that it's 'likely vulnerable' to CVE-2008-4250 (MS08-067). Pretty old vulnerability, this looks consonant
 with box name. 
 
