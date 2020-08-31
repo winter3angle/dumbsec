@@ -80,7 +80,6 @@ Not much ports open there, seems to be only SMB server available at the time. Le
 Well it's really seems to be _legacy_ since nmap suggests that this box running Windows XP. Though these results may not be accurate, `smb-os-discovery` also
 suggests so, I'll take a mental note about this - it might be vulnerable to some antediluvian vulnerabilities.  
 Nmap has some more interesting scripts for SMB, worth trying to scan using them:
-
 <pre>
 
     # Nmap 7.80 scan initiated Wed Aug 26 12:49:00 2020 as: nmap -p445,139 --script=smb-vuln* -oA nmap/smb-vuln-mass 10.10.10.4
