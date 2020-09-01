@@ -1,20 +1,19 @@
 Title: HTB Bashed box writeup
 Tags: oscp, htb
 Summary: Walkthrough for this one
-Date: 01/09/2020 12:30
+Date: 2020-09-01 15:00
 Status: published
 
 # Enumeration
 Let's start with -sS all TCP range since we are not limited in traffic and not afraid of IDS:
 <pre>
-    # Nmap 7.80 scan initiated Tue May 12 19:05:00 2020 as: nmap -sS -p- -oA enum/nmap-ss-t-all 10.10.10.68
+    Nmap 7.80 scan initiated Tue May 12 19:05:00 2020 as: nmap -sS -p- -oA enum/nmap-ss-t-all 10.10.10.68
     Nmap scan report for bashed.htb (10.10.10.68)
     Host is up (0.061s latency).
     Not shown: 65534 closed ports
     PORT   STATE SERVICE
     80/tcp open  http
-
-    # Nmap done at Tue May 12 19:06:30 2020 -- 1 IP address (1 host up) scanned in 90.26 seconds
+    Nmap done at Tue May 12 19:06:30 2020 -- 1 IP address (1 host up) scanned in 90.26 seconds
 </pre>
 Not so much eh. I tried to run sU scan in the background and found nothing interesting. Looks like the webserver is
 the way in. Spin up gobuster scan to find something interesting and while it's running let's go and see what's
