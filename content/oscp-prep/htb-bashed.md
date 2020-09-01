@@ -1,7 +1,7 @@
 Title: HTB Bashed box writeup
 Tags: oscp, htb
 Summary: Walkthrough for this one
-Date: 01/09/2020 15:30
+Date: 01/09/2020 12:30
 Status: published
 
 # Enumeration
@@ -72,9 +72,9 @@ There are only two files in this directory, one simple python  script and a txt 
 
 Notice that while the `test.py` owned by scriptmanager:scriptmanager, `test.txt` is owned and
 only writable by root. This is a direct hint that `test.py` might have been executing with
-root privileges in some way, first though that there is a cron job that runs it. I found nothing
+root privileges in some way, first thought was that there is a cron job that runs it. I found nothing
 useful in cron folders, crontab file or `/var/log` so I've uploaded [pspy](https://github.com/DominicBreuker/pspy)
-and my hypothesis turned to be right:
+and my hypothesis turned out to be right:
 
 ![cron hit](/cstatic/htb-bashed/cron.png)
 
