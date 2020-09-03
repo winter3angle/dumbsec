@@ -51,7 +51,6 @@ And scripted scan for open ones:
     No exact OS matches for host (test conditions non-ideal).
     Network Distance: 2 hops
     Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
-
     Host script results:
     |_clock-skew: mean: -3d00h53m34s, deviation: 2h49m44s, median: -3d02h53m36s
     | smb-os-discovery: 
@@ -96,7 +95,7 @@ I was trying to run it with python 3 and have faced an error, unexpectedly waste
 Naive things like world-writable `/etc/passwd` or `sudo` ALL w/o password didn't work for the `daemon` user
 so I ran linpeas and got a super-useful hint - we can run `nmap` which has suid bit set and owned by root:
 
-![nmap suid](/cstatic/htb-lame/nmap-suid.png)
+![nmap suid](/cstatic/htb-lame/suid-nmap.png)
 
 This is an interesting trick, that I didn't know before. Nmap could be run in interactive mode and user is
 capable of dropping back to the shell, something like `:sh` vim command. This elevates our privileges to root
