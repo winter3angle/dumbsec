@@ -3,6 +3,7 @@ Category: OSCP
 Tags: cheatsheet, exam
 Summary: Some references, cheatsheets and thoughts about PWK in general
 Date: 17/08/2020 23:00
+Modified: 2020-09-06 15:00
 Status: published
 
 # Modules summary
@@ -868,6 +869,52 @@ free [metasploit unleashed](https://www.offensive-security.com/metasploit-unleas
 -------------------
 Barely touched this, seems to be pretty similar to MSF. Though looks like I should get in touch with 
 [docs](http://www.powershellempire.com/) to be familiar with concepts. Weird, but their github repo is no longer supported.
+
+# Vulnerable machines and practice resources
+--------------------------------------------
+List of additional stuff to pwn.
+
+TJNull's list of HTB machines:
+
+   Platform   |        Name        |       Status        
+--------------|--------------------|---------------------
+ nix          | lame               | pwnd
+ nix          | brainfuck          | -
+ nix          | shocker            | pwnd
+ nix          | bashed             | pwnd
+ nix          | nibbles            | pwnd
+ nix          | beep               | pwnd
+ nix          | cronos             | pwnd
+ nix          | nineveh            | pwnd
+ nix          | sense              | -
+ nix          | solidstate         | -
+ nix          | kotarak            | -
+ nix          | node               | -
+ nix          | valentine          | -
+ nix          | poison             | -
+ nix          | sunday             | -
+ nix          | tartarsauce        | -
+ nix          | jail               | -
+ nix          | falafel            | -
+ nix          | devops             | -
+ nix          | hawk               | -
+ win          | legacy             | pwnd
+ win          | blue               | -
+ win          | devel              | -
+ win          | optimum            | -
+ win          | bastard            | -
+ win          | granny             | -
+ win          | arctic             | -
+ win          | grandpa            | -
+ win          | silo               | -
+ win          | bounty             | -
+ win          | jerry              | -
+ win          | jeeves             | -
+ win          | bart               | -
+ win          | tally              | -
+ win          | active             | -
+
+[Virtual hacking labs](https://www.virtualhackinglabs.com/), kudos to Dyntra from offsec community chat.
 
 # Credits
 ---------
