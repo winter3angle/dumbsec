@@ -1,6 +1,6 @@
 Title: HTB Nibbles box writeup
 Tags: oscp, htb
-Summary: ANother walkthrough for a linux box
+Summary: Another walkthrough for a linux box
 Date: 2020-09-07 14:00
 Status: published
 
