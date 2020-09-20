@@ -1,6 +1,6 @@
 Title: HTB Sense writeup
 Tags: oscp, htb
-Summary: When an outdate security solution is a gate to adversary
+Summary: When an outdated security solution is a gate to adversary
 Date: 2020-09-20 15:00
 Status: published
 
