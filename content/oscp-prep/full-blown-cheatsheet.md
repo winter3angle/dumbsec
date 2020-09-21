@@ -887,7 +887,7 @@ TJNull's list of HTB machines:
  nix          | cronos             | pwnd
  nix          | nineveh            | pwnd
  nix          | sense              | pwnd
- nix          | solidstate         | -
+ nix          | solidstate         | pwnd
  nix          | kotarak            | -
  nix          | node               | -
  nix          | valentine          | -
