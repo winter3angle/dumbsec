@@ -888,7 +888,7 @@ TJNull's list of HTB machines:
  nix          | nineveh            | pwnd
  nix          | sense              | pwnd
  nix          | solidstate         | pwnd
- nix          | kotarak            | -
+ nix          | kotarak            | pwnd
  nix          | node               | -
  nix          | valentine          | -
  nix          | poison             | -
