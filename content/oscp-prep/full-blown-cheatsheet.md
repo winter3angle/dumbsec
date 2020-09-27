@@ -899,7 +899,7 @@ TJNull's list of HTB machines:
  nix          | devops             | -
  nix          | hawk               | -
  win          | legacy             | pwnd
- win          | blue               | -
+ win          | blue               | pwnd
  win          | devel              | -
  win          | optimum            | -
  win          | bastard            | -
