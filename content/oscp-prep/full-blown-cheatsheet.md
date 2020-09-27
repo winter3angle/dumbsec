@@ -889,7 +889,7 @@ TJNull's list of HTB machines:
  nix          | sense              | pwnd
  nix          | solidstate         | pwnd
  nix          | kotarak            | pwnd
- nix          | node               | -
+ nix          | node               | pwnd
  nix          | valentine          | -
  nix          | poison             | -
  nix          | sunday             | -
