@@ -900,7 +900,7 @@ TJNull's list of HTB machines:
  nix          | hawk               | -
  win          | legacy             | pwnd
  win          | blue               | pwnd
- win          | devel              | -
+ win          | devel              | pwnd
  win          | optimum            | -
  win          | bastard            | -
  win          | granny             | -
