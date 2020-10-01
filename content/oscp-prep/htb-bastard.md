@@ -1,6 +1,6 @@
 Title: HTB Bastard box writeup
 Tags: oscp, htb
-Summary: Walkthrough for this one
+Summary: Presenting newb way to privesc
 Date: 2020-09-30 17:00
 Status: published
 
