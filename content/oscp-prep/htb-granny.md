@@ -1,8 +1,8 @@
 Title: HTB Granny box writeup
 Tags: oscp, htb
-Summary: Walkthrough for this one
-Date: 2020-09-01 15:00
-Status: draft
+Summary: Unusual service on antediluvian box
+Date: 2020-10-06 00:40
+Status: published
 
 # Enumeration
 Only single TCP port considered open:
@@ -106,4 +106,13 @@ And this one indeed could be executed, we're in:
 
 ![service shell](/cstatic/htb-granny/service-shell.png)
 
+# Privilege escalation
+Turned out this box is pretty old, chances are that there are many exploits or
+less convoluted ways to privesc. I've just grabbed 
+[this one](https://www.exploit-db.com/exploits/37755) and after a bit of tuning
+it worked flawlessly. All that's needed is to change executable binary to our
+meterpreter shell and catch a root session. For reasons unknown `shell` command
+doesn't work in this session, it just drops back to meterpreter prompt, but I
+guess it's eligible:
 
+![root shell](/cstatic/htb-granny/root-shell.png)
