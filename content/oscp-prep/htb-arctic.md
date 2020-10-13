@@ -119,7 +119,7 @@ hosted accompanying UI script on my machine and got web shell running:
 Obviously it's trivial to acquire an interactive shell from this, turned out
 that ColdFusion has been running as some local user:
 
-![user shell](/cstati/htb-arctic/user-shell.png)
+![user shell](/cstatic/htb-arctic/user-shell.png)
 
 # Privilege escalation
 So I decided to "try harder" with PE here, since I just watched tib3rius' course
