@@ -904,7 +904,7 @@ TJNull's list of HTB machines:
  win          | optimum            | pwnd
  win          | bastard            | pwnd
  win          | granny             | pwnd
- win          | arctic             | -
+ win          | arctic             | pwnd
  win          | grandpa            | -
  win          | silo               | -
  win          | bounty             | -
