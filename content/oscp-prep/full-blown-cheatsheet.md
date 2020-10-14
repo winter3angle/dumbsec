@@ -891,7 +891,7 @@ TJNull's list of HTB machines:
  nix          | kotarak            | pwnd
  nix          | node               | pwnd
  nix          | valentine          | pwnd
- nix          | poison             | -
+ nix          | poison             | pwnd
  nix          | sunday             | -
  nix          | tartarsauce        | -
  nix          | jail               | -
