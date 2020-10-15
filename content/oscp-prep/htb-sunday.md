@@ -122,5 +122,5 @@ downloaded my reverse shell over the `/usr/bin/at` and got a root session:
 
 ![root shell](/cstatic/htb-sunday/root-shell.png)
 
-I didn't bother upgrading to root shell because the box was damn laggy and
-driving me nuts with constant freezes and glitches.
+I didn't bother upgrading to interactive shell because the box was damn laggy 
+and drived me nuts with constant freezes and glitches.
