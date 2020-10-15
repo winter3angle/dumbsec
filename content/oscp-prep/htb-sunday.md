@@ -92,7 +92,7 @@ bruteforce passwords and after a while sunny's password was revealed in rockyou:
 
 Sunny could run `/root/troll` via sudo, but it doesn't look exploitable at a
 glance, he's even not able to stat that file and read perms. 
-Also sunny has access to unusual dir `/backup` with a file that claimed to be
+Also sunny has access to unusual `/backup` dir with a file that claimed to be
 backup of `/etc/shadow`:
 <pre>
 sunny@sunday:~$ cat /backup/shadow.backup
