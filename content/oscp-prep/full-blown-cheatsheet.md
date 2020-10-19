@@ -893,7 +893,7 @@ TJNull's list of HTB machines:
  nix          | valentine          | pwnd
  nix          | poison             | pwnd
  nix          | sunday             | pwnd
- nix          | tartarsauce        | -
+ nix          | tartarsauce        | pwnd
  nix          | jail               | -
  nix          | falafel            | -
  nix          | devops             | -
