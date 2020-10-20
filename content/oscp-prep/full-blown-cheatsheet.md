@@ -879,7 +879,7 @@ TJNull's list of HTB machines:
    Platform   |        Name        |       Status        
 --------------|--------------------|---------------------
  nix          | lame               | pwnd
- nix          | brainfuck          | -
+ nix          | brainfuck          | pwnd
  nix          | shocker            | pwnd
  nix          | bashed             | pwnd
  nix          | nibbles            | pwnd
