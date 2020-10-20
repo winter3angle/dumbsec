@@ -143,7 +143,6 @@ Certificate:
                 8F:5D:8A:B1:C2:60:FF:A8:12:1F:39:BE:93:34:8D:FE:9B:2F:8A:4F
             X509v3 Authority Key Identifier: 
                 keyid:8F:5D:8A:B1:C2:60:FF:A8:12:1F:39:BE:93:34:8D:FE:9B:2F:8A:4F
-
             X509v3 Basic Constraints: 
                 CA:TRUE
             X509v3 Key Usage: 
@@ -167,6 +166,9 @@ There are at least two vulnerabilities known to EDB:
 
  1. [Privesc to wp admin](https://www.exploit-db.com/exploits/41006)
  2. [SQLi](https://www.exploit-db.com/exploits/40939)
+
+Found using wpscan with arguments
+`--url https://brainfuck.htb -o enum/wpscan.txt -v --disable-tls-checks -e ap,at,cb,dbe --plugins-detection aggressive --detection-mode aggressive`
 
 # Exploitation
 wp-support-plus-responsive-ticket-system indeed looks vulnerable to SQLi, in my
@@ -198,7 +200,7 @@ with another credentials - for s3cr3tforum (`orestis:kIEnnfEKJ#9UmdO`):
 ![forum creds](/cstatic/htb-brainfuck/forum-creds.png)
 
 There's an interesting conversation between orestis and admin, looks like
-orestis is quite a d-bag and yelling on admin because she configured SSH access
+orestis is quite a d-bag and yelling on admin because he configured SSH access
 to use key auth only. They have a 'secure' conversation with an interesting
 string that seems to be the link to website on the box:
 `mnvze://10.10.10.17/8zb5ra10m915218697q1h658wfoq0zc8/frmfycu/sp_ptr`. Also
