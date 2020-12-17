@@ -1,7 +1,7 @@
 Title: How to fail first OSCP attempt, essentials
 Category: OSCP
 Tags: exam, failure, oscp
-Summary: Post-mortem of failet exam attempt
+Summary: Post-mortem of failed exam attempt
 Date: 17/12/2020 23:00
 Status: published
 
