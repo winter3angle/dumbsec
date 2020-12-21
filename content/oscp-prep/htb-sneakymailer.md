@@ -6,22 +6,22 @@ Status: published
 
 # Enumeration
 The box has some mail services running:
-
-    Nmap 7.80 scan initiated Mon Nov 23 11:30:14 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.197
-    Nmap scan report for sneakymailer.htb (10.10.10.197)
-    Host is up (0.053s latency).
-    Not shown: 65528 closed ports
-    PORT     STATE SERVICE
-    21/tcp   open  ftp
-    22/tcp   open  ssh
-    25/tcp   open  smtp
-    80/tcp   open  http
-    143/tcp  open  imap
-    993/tcp  open  imaps
-    8080/tcp open  http-proxy
-    Read data files from: /usr/bin/../share/nmap
-    Nmap done at Mon Nov 23 11:31:30 2020 -- 1 IP address (1 host up) scanned in 75.89 seconds
-
+```
+Nmap 7.80 scan initiated Mon Nov 23 11:30:14 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.197
+Nmap scan report for sneakymailer.htb (10.10.10.197)
+Host is up (0.053s latency).
+Not shown: 65528 closed ports
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+25/tcp   open  smtp
+80/tcp   open  http
+143/tcp  open  imap
+993/tcp  open  imaps
+8080/tcp open  http-proxy
+Read data files from: /usr/bin/../share/nmap
+Nmap done at Mon Nov 23 11:31:30 2020 -- 1 IP address (1 host up) scanned in 75.89 seconds
+```
 More detailed scripted scan:
 
     Nmap 7.80 scan initiated Mon Nov 23 11:32:09 2020 as: nmap -sC -sV -A -T4 -p21,22,25,80,143,993,8080 -oA enum/nmap-sCVAT4-open 10.10.10.197
