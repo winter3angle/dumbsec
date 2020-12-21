@@ -31,7 +31,7 @@ MARKDOWN: {
     'extension_configs': {
         'markdown.extensions.codehilite': {
             'css_class': 'highlight',
-            'guess_lang': False
+            'guess_lang':False,
         },
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {}
