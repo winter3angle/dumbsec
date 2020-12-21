@@ -6,7 +6,7 @@ Status: published
 
 # Enumeration
 The box has some mail services running:
-```
+```text
 Nmap 7.80 scan initiated Mon Nov 23 11:30:14 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.197
 Nmap scan report for sneakymailer.htb (10.10.10.197)
 Host is up (0.053s latency).
