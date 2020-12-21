@@ -23,8 +23,16 @@ SOCIAL = (('twitter', 'https://twitter.com/no_nuestro'),
           ('h1', 'https://hackerone.com/x268'),
           ('htb', 'https://www.hackthebox.eu/profile/311224'))
 MARKDOWN: {
+    'extensions': [
+        'markdown.extensions.codehilite',
+        'markdown.extensions.extra',
+        'markdown.extensions.meta'
+    ],
     'extension_configs': {
-        'markdown.extensions.codehilite': {'css_class': 'highlight', 'guess_lang': False},
+        'markdown.extensions.codehilite': {
+            'css_class': 'highlight',
+            'guess_lang': False
+        },
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {}
     },
