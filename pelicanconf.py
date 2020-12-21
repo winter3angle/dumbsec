@@ -38,3 +38,13 @@ MARKDOWN: {
     },
     'output_format': 'html5',
 }
+PAGINATED_TEMPLATES = {
+    'index': 15,
+    'tag': 15,
+    'category': 15,
+    'author': None
+}
+PAGINATION_PATTERNS = (
+    (1, '{url}', '{save_as}'),
+    (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
+)
