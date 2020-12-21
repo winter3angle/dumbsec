@@ -22,8 +22,11 @@ SOCIAL = (('twitter', 'https://twitter.com/no_nuestro'),
           ('github', 'https://github.com/winter3angle'),
           ('h1', 'https://hackerone.com/x268'),
           ('htb', 'https://www.hackthebox.eu/profile/311224'))
-MARKDOWN: {'extension_configs': 
-    {'markdown.extensions.codehilite':
-        {'css_class': 'highlight', 'guess_lang': False}, 
-     'markdown.extensions.extra': {}, 
-     'markdown.extensions.meta': {}}}
+MARKDOWN: {
+    'extension_configs': {
+        'markdown.extensions.codehilite': {'css_class': 'highlight', 'guess_lang': False},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {}
+    },
+    'output_format': 'html5',
+}
