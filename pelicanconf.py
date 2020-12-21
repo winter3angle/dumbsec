@@ -38,6 +38,7 @@ MARKDOWN: {
     },
     'output_format': 'html5',
 }
+DEFAULT_PAGINATION = 15
 PAGINATED_TEMPLATES = {
     'index': 15,
     'tag': 15,
