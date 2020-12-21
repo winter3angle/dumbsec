@@ -517,10 +517,10 @@ if __name__ == '__main__':
 After a while it dumped all the passwords from web app (formatted):
 ```json 
 {
-    'rita': 'password01!',
-    'jim': 'stairwaytoheaven',
-    'bryan': 'ireallyl0vebubblegum!!!',
-    'sarah': 'sarah4evah'
+    "rita": "password01!",
+    "jim": "stairwaytoheaven",
+    "bryan": "ireallyl0vebubblegum!!!",
+    "sarah": "sarah4evah"
 }
 ```
 Bryan creds worked for ssh access:
