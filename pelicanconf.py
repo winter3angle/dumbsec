@@ -21,4 +21,4 @@ GENERATION_TIMESTAMP = time.strftime('%d/%m/%Y %H:%M%Z')
 SOCIAL = (('twitter', 'https://twitter.com/no_nuestro'),
           ('github', 'https://github.com/winter3angle'),
           ('h1', 'https://hackerone.com/x268'),
-          ('hackthebox', 'https://www.hackthebox.eu/home/users/profile/311224'))
+          ('htb', 'https://www.hackthebox.eu/profile/311224'))
