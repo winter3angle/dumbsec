@@ -33,14 +33,14 @@ session and however Offensive Security recommends to use Firefox (which is my
 go-to browser usually) Chrome worked much better than it. I was told that there
 are some bugs and newest Chrome doesn't work well with proctoring software, but
 I didn't notice anything wrong with it as well as my remote proctor. This weird
-troubleshooting sesion took about 40 minutes and I was kind of upset of such a
+troubleshooting session took about 40 minutes and I was kind of upset of such a
 dumb start and time waste right from the beginning.  
 
 # The first one
 So I decided to start with buffer overflow machine which costs 25 points and
 how rumours say is the easiest one. Turned out this is true. You're provided
 with debugging machine with all the needed software and just have to stick with
-trivial manual BO exploitation methodology and you're done. It took like a hour
+trivial manual BO exploitation methodology and you're fine. It took like a hour
 and a half to have working local exploit with `windows/exec` msfvenom payload.
 For some reason it was necessary to play with encoders since some of the were
 causing immediate crashes on target service, despite the countermeasures like
