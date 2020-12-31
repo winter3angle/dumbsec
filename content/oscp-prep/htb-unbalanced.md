@@ -1,5 +1,5 @@
 Title: HTB Unbalanced box writeup
-Tags: oscp, htb
+Tags: oscp, htb, pihole, squid, sqli, blind sqli, python, custom enumeration
 Summary: Merciless intranet enumeration and unusual privesc service
 Date: 2020-12-21 23:00
 Status: published

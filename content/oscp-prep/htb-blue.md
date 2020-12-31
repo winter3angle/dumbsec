@@ -1,12 +1,12 @@
 Title: HTB Blue box writeup
-Tags: oscp, htb
+Tags: oscp, htb, smb, eternalblue
 Summary: Laid-back windows box
 Date: 2020-09-28 02:00
 Status: published
 
 # Enumeration
 Spin up full TCP range scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep 27 21:15:26 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.40
     Nmap scan report for blue.htb (10.10.10.40)
     Host is up (0.051s latency).
@@ -22,9 +22,9 @@ Spin up full TCP range scan:
     49156/tcp open  unknown
     49157/tcp open  unknown
     Nmap done at Sun Sep 27 21:16:25 2020 -- 1 IP address (1 host up) scanned in 59.37 seconds
-</pre>
+```
 And follow by scripted scan of open ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep 27 21:18:44 2020 as: nmap -sC -A -T4 -p135,139,445,49152,49153,49154,49155,49156,49157 -oA enum/nmap-sCAT4-open 10.10.10.40
     Nmap scan report for blue.htb (10.10.10.40)
     Host is up (0.051s latency).
@@ -69,9 +69,9 @@ And follow by scripted scan of open ports:
     2   50.64 ms blue.htb (10.10.10.40)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Sun Sep 27 21:19:58 2020 -- 1 IP address (1 host up) scanned in 74.00 seconds
-</pre>
+```
 Results of smb-protocols nmap script:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep 27 21:24:52 2020 as: nmap -sC -p139,445 --script=smb-protocols -oA enum/nmap-smb-protocols 10.10.10.40
     Nmap scan report for blue.htb (10.10.10.40)
     Host is up (0.100s latency).
@@ -85,7 +85,7 @@ Results of smb-protocols nmap script:
     |     2.02
     |_    2.10
     Nmap done at Sun Sep 27 21:25:00 2020 -- 1 IP address (1 host up) scanned in 7.38 seconds
-</pre>
+```
 
 # Exploitation
 Almost from the beginning I was suspecting presence of the EternalBlue/Romance/Champion vulns.

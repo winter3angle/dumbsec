@@ -1,12 +1,12 @@
 Title: HTB Sense writeup
-Tags: oscp, htb
+Tags: oscp, htb, dirbusting, pfsense
 Summary: When an outdated security solution is a gate to adversary
 Date: 2020-09-20 15:00
 Status: published
 
 # Enumeration
 Full range TCP scan revealed only a couple of open ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Sat Sep 12 22:07:56 2020 as: nmap -sS -p- -oA enum/nmap-ss-all sense.htb
     Nmap scan report for sense.htb (10.10.10.60)
     Host is up (0.065s latency).
@@ -15,7 +15,7 @@ Full range TCP scan revealed only a couple of open ports:
     80/tcp  open  http
     443/tcp open  https
     Nmap done at Sat Sep 12 22:10:03 2020 -- 1 IP address (1 host up) scanned in 127.58 seconds
-</pre>
+```
 Actually, I tried to browse to this host either by IP and by name (`shocker.htb`, added entry to `/etc/hosts` as
 always) and already discovered them. Also tried to scan top 1000 UDP ports with `-sU` switch, no luck, all of
 them rendered useless.
@@ -24,7 +24,7 @@ Looks like lighthttpd used with pfsense:
 ![webserver version](/cstatic/htb-sense/webserver-ver.png)
 
 Gobuster on `/` probably will be useful, though the app is well-known:
-<pre>
+```text
     /classes (Status: 301)
     /css (Status: 301)
     /favicon.ico (Status: 200)
@@ -36,7 +36,7 @@ Gobuster on `/` probably will be useful, though the app is well-known:
     /widgets (Status: 301)
     /wizards (Status: 301)
     /~sys~ (Status: 403)
-</pre>
+```
 It might be that something unusual is hosted at `/tree`:
 
 ![silverstripe tree](/cstatic/htb-sense/tree.png)
@@ -44,7 +44,7 @@ It might be that something unusual is hosted at `/tree`:
 The version shown is quite old - `SilverStripe Tree Control: v0.1, 30 Oct 2005`. If this is related to pfsense,
 it might be very old as well.
 Nikto shown no additional useful info:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: 10.10.10.60
     Target Port: 443
@@ -57,12 +57,12 @@ Nikto shown no additional useful info:
     GET Multiple index files found: /index.php, /index.html
     GET Hostname '10.10.10.60' does not match certificate's names: Common
     OPTIONS Allowed HTTP Methods: OPTIONS, GET, HEAD, POST 
-</pre> 
+```
 Here I stuck for the moment, the only web service seems to be outdated, but we need creds to proceed. Some additional gobustering revealed hint, it was necessary to try some other wordlists and various extensions (redirects and known entries are omitted):
-<pre>
+```text
 /changelog.txt (Status: 200)
 /system-users.txt (Status: 200)
-</pre>
+```
 Those are quite inetersting files. `system-users.txt` contain hint about working creds:
 
 ![system users](/cstatic/htb-sense/system-users.png)

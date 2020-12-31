@@ -1,5 +1,5 @@
 Title: HTB Sunday box writeup
-Tags: oscp, htb
+Tags: oscp, htb, finger, sudo, gtfobins, hash cracking, wget
 Summary: Struggling with extra-laggy and ancient environment
 Date: 2020-10-16 00:15
 Status: published
@@ -7,7 +7,7 @@ Status: published
 # Enumeration
 This box is pretty slow so I had to set `--max-retries` to 1 to accomplish usual
 nmap scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct 15 14:19:09 2020 as: nmap -sS -p- --max-retries=1 -oA enum/nmap-ss-all -v 10.10.10.76
     Increasing send delay for 10.10.10.76 from 0 to 5 due to 17 out of 56 dropped probes since last increase.
     Warning: 10.10.10.76 giving up on port because retransmission cap hit (1).
@@ -22,9 +22,9 @@ nmap scan:
     49886/tcp open  unknown
     Read data files from: /usr/bin/../share/nmap
     Nmap done at Thu Oct 15 14:33:02 2020 -- 1 IP address (1 host up) scanned in 832.69 seconds
-</pre>
+```
 Took more than ten minutes! Yikes. Detailed:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct 15 15:56:48 2020 as: nmap -sC -sV -A -T4 -p79,111,22022,40447,49886 -oA enum/nmap-sCVAT4-open 10.10.10.76
     Nmap scan report for sunday.htb (10.10.10.76)
     Host is up (0.056s latency).
@@ -54,7 +54,7 @@ Took more than ten minutes! Yikes. Detailed:
     2   56.18 ms sunday.htb (10.10.10.76)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu Oct 15 15:57:27 2020 -- 1 IP address (1 host up) scanned in 39.71 seconds
-</pre>
+```
 Well well there's SSH listening on unusual port and a finger daemon that
 potentially allows to enumerate local users. I nc'd to high ports and it looks
 like there's nothing useful in there. `rpcinfo` revealed nothing. Let's
@@ -66,7 +66,7 @@ revealed a couple of standard users and suggested that the box is running
 [script](https://github.com/pentestmonkey/finger-user-enum) from pentestermonkey
 and combined with usernames list from notorious SecLists repository it provided
 me with some interesting results:
-<pre>
+```text
     root@10.10.10.76:	    root	Super-User	pts/3		sunday	
     access@10.10.10.76:	    access	No	Access	User	
     sammy@10.10.10.76:	    sammy	console	
@@ -79,7 +79,7 @@ me with some interesting results:
     Sammy@10.10.10.76:	    Login	Name	TTY	Idle	When	Wheresammy	sammy	console	
     line@10.10.10.76:	    Login	Name	TTY	Idle	When	Wherelp	Line	Printer	Admin	
     anonymous@10.10.10.76:	Login	Name	TTY	Idle	When	Wherenobody	NFS	Anonymous	Access	
-</pre>
+```
 Results were a bit clumsy so I changed them a bit by hand. Notice two
 interesting names there - `sammy` and `sunny`, looks like regular users. I also
 checked them out manually using `finger` command to ensure there's no glitches.
@@ -94,7 +94,7 @@ Sunny could run `/root/troll` via sudo, but it doesn't look exploitable at a
 glance, he's even not able to stat that file and read perms. 
 Also sunny has access to unusual `/backup` dir with a file that claimed to be
 backup of `/etc/shadow`:
-<pre>
+```text
 sunny@sunday:~$ cat /backup/shadow.backup
 mysql:NP:::::::
 openldap:*LK*:::::::
@@ -106,7 +106,7 @@ noaccess:*LK*:6445::::::
 nobody4:*LK*:6445::::::
 sammy:$5$Ebkn8jlK$i6SSPa0.u7Gd.0oJOT4T421N2OvsfXqAT1vCoYUOigB:6445::::::
 sunny:$5$iRMbpnBv$Zh7s6D7ColnogCdiVE5Flz9vCZOMkUFxklRhhaShxv3:17636::::::
-</pre>
+```
 Sammy's password found in rockyou and it is `cooldude!`:
 
 ![sammy pwd](/cstatic/htb-sunday/sammy-cracked.png)

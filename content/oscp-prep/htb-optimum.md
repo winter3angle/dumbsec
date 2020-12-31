@@ -1,12 +1,12 @@
 Title: HTB Optimum box writeup
-Tags: oscp, htb
+Tags: oscp, htb, hfs
 Summary: How to gain SYSTEM in two steps, essentials
 Date: 2020-09-29 14:30
 Status: published
 
 # Enumeration
 Scan revealed only one service running on TCP 80:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Sep 28 21:06:22 2020 as: nmap -sS -p- -oA enum/nmap-ss-all optimum.htb
     Nmap scan report for optimum.htb (10.10.10.8)
     Host is up (0.062s latency).
@@ -14,10 +14,10 @@ Scan revealed only one service running on TCP 80:
     PORT   STATE SERVICE
     80/tcp open  http
     Nmap done at Mon Sep 28 21:08:35 2020 -- 1 IP address (1 host up) scanned in 132.89 seconds
-</pre>
+```
 And this is Rejetto HTTP file server, which I was discovered while nmap was doing
 his job:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Sep 28 21:09:56 2020 as: nmap -sC -A -T4 -p80 -oA enum/nmap-sCAT4-open 10.10.10.8
     Nmap scan report for optimum.htb (10.10.10.8)
     Host is up (0.054s latency).
@@ -36,7 +36,7 @@ his job:
     2   55.40 ms optimum.htb (10.10.10.8)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Mon Sep 28 21:10:08 2020 -- 1 IP address (1 host up) scanned in 13.03 seconds
-</pre>
+```
 Note that the HFS version is 2.3. This is the only bit of information that we need to get
 the user shell.
 
@@ -44,7 +44,7 @@ the user shell.
 I recalled a similar box in PWK labs and immediately tried to search some exploits
 for HFS 2.3 and there indeed [some](https://www.exploit-db.com/exploits/39161) that
 worked well. Just had to change connection parameters and spin up a web server with
-`nc.exe` hosted. The exploit could be unreliable and I've got a shell from the second
+`nc.exe` hosted. The exploit is unreliable and I've got a shell from the second
 try:
 
 ![user shell](/cstatic/htb-optimum/user-shell.png)

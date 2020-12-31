@@ -1,12 +1,12 @@
 Title: HTB Brainfuck box writeup
-Tags: oscp, htb
+Tags: oscp, htb, wordpress, wpscan, crypto, rsa, vigenere cipher
 Summary: I love the smell of crypto in the morning
 Date: 2020-10-20 20:20
 Status: published
 
 # Enumeration
 Couple of interesting services are there:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Oct 19 21:59:43 2020 as: nmap -sS -v -p- -oA enum/nmap-ss-all 10.10.10.17
     Nmap scan report for brainfuck.htb (10.10.10.17)
     Host is up (0.052s latency).
@@ -19,9 +19,9 @@ Couple of interesting services are there:
     443/tcp open  https
     Read data files from: /usr/bin/../share/nmap
     Nmap done at Mon Oct 19 22:01:44 2020 -- 1 IP address (1 host up) scanned in 120.26 seconds
-</pre>
+```
 Detailed scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Oct 19 22:03:05 2020 as: nmap -sC -sV -A -T4 -v -p22,25,110,143,443 -oA enum/nmap-sCVAT4-open 10.10.10.17
     Nmap scan report for brainfuck.htb (10.10.10.17)
     Host is up (0.052s latency).
@@ -73,14 +73,14 @@ Detailed scan:
     Read data files from: /usr/bin/../share/nmap
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Mon Oct 19 22:03:54 2020 -- 1 IP address (1 host up) scanned in 50.06 seconds
-</pre>
+```
 Certificate common name suggests that box hostname could be `brainfuck.htb` and
 there are virtual hosts configured on the webserver since it responds with
 different webpages to `https://10.10.10.17` and `https://brainfuck.htb`. It
 seems that there's wordpress website at the `brainfuck.htb`.
 
 Nikto on IP root:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: 10.10.10.17
     Target Port: 443
@@ -92,10 +92,10 @@ Nikto on IP root:
     GET The Content-Encoding header is set to "deflate" this may mean that the server is vulnerable to the BREACH attack.
     GET Hostname '10.10.10.17' does not match certificate's names: brainfuck.htb
     HEAD nginx/1.10.0 appears to be outdated (current is at least 1.14.0)
-</pre>
+```
 
 And on the domain root:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: brainfuck.htb
     Target Port: 443
@@ -114,13 +114,13 @@ And on the domain root:
     GET /: A Wordpress installation was found.
     GET Cookie wordpress_test_cookie created without the httponly flag
     GET /wp-login.php: Wordpress login found
-</pre>
+```
 
 Gobuster with `big.txt` from dirb wasn't found any interesting entries at this
 time.
 
 Website has a certificate with interesting issuer:
-<pre>
+```text
 Certificate:
     Data:
         Version: 3 (0x2)
@@ -150,7 +150,7 @@ Certificate:
             X509v3 Subject Alternative Name: 
                 DNS:www.brainfuck.htb, DNS:sup3rs3cr3t.brainfuck.htb
     [SNIP]
-</pre>
+```
 It might be that there's a `orestis` user in this box. Also notice some
 quite interesting value in SAN: `sup3rs3cr3t.brainfuck.htb`. Worth to be
 added in `/etc/hosts`. Turned out there's some another web service called

@@ -1,5 +1,5 @@
 Title: HTB SneakyMailer box writeup
-Tags: oscp, htb
+Tags: oscp, htb, imap, python, pip, pypi, sudo, gtfobins
 Summary: Meet the ffuf
 Date: 2020-12-21 16:00
 Status: published

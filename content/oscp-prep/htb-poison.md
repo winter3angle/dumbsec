@@ -1,12 +1,12 @@
 Title: HTB Poison box writeup
-Tags: oscp, htb
+Tags: oscp, htb, xvnc, base64
 Summary: Instant user access and unusual process below the radar of linPEAS
 Date: 2020-10-14 17:00
 Status: published
 
 # Enumeration
 Only two network services listening on TCP ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Wed Oct 14 14:09:24 2020 as: nmap -sS -p- -oA enum/nmap-ss-all -v -v 10.10.10.84
     Nmap scan report for poison.htb (10.10.10.84)
     Host is up, received echo-reply ttl 63 (0.057s latency).
@@ -17,9 +17,9 @@ Only two network services listening on TCP ports:
     22/tcp open  ssh     syn-ack ttl 63
     80/tcp open  http    syn-ack ttl 63
     Nmap done at Wed Oct 14 14:16:05 2020 -- 1 IP address (1 host up) scanned in 400.80 seconds
-</pre>
+```
 Detailed:
-<pre>
+```text
     Nmap 7.80 scan initiated Wed Oct 14 14:21:22 2020 as: nmap -sC -sV -A -T4 -p22,80 -oA enum/nmap-sCVAT4-open 10.10.10.84
     Nmap scan report for poison.htb (10.10.10.84)
     Host is up (0.061s latency).
@@ -43,7 +43,7 @@ Detailed:
     2   60.23 ms poison.htb (10.10.10.84)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Wed Oct 14 14:21:35 2020 -- 1 IP address (1 host up) scanned in 13.59 seconds
-</pre>
+```
 
 Web app allows to browse some file contents, for example if we type in
 `listfiles.php` it will show us some intereresting files:
@@ -51,7 +51,7 @@ Web app allows to browse some file contents, for example if we type in
 ![list files](/cstatic/htb-poison/listfiles.png)
 
 Content of `pwdbackup.txt` as follows:
-<pre>
+```text
 This password is secure, it's encoded atleast 13 times.. what could go wrong really.. 
 
 Vm0wd2QyUXlVWGxWV0d4WFlURndVRlpzWkZOalJsWjBUVlpPV0ZKc2JETlhhMk0xVmpKS1IySkVU 
@@ -70,14 +70,14 @@ Vm14elZteHcKVG1KR2NEQkRiVlpJVDFaa2FWWllRa3BYVmxadlpERlpkd3BOV0VaVFlrZG9hRlZz
 WkZOWFJsWnhVbXM1YW1RelFtaFZiVEZQVkVaawpXR1ZHV210TmJFWTBWakowVjFVeVNraFZiRnBW 
 VmpOU00xcFhlRmRYUjFaSFdrWldhVkpZUW1GV2EyUXdDazVHU2tkalJGbExWRlZTCmMxSkdjRFpO 
 Ukd4RVdub3dPVU5uUFQwSwo= 
-</pre>
+```
 
 `browse.php` is also vulnerable to trivial path traversal:
 
 ![path traversal](/cstatic/htb-poison/traversal.png)
 
 Here's content of passwd:
-<pre>
+```text
     # $FreeBSD: releng/11.1/etc/master.passwd 299365 2016-05-10 12:47:36Z bcr $ 
     root:*:0:0:Charlie &:/root:/bin/csh
     toor:*:0:0:Bourne-again Superuser:/root: 
@@ -109,7 +109,7 @@ Here's content of passwd:
     avahi:*:558:558:Avahi Daemon User:/nonexistent:/usr/sbin/nologin
     cups:*:193:193:Cups Owner:/nonexistent:/usr/sbin/nologin
     charix:*:1001:1001:charix:/home/charix:/bin/csh 
-</pre>
+```
 
 `pwdbackup.txt` seems to be just a text that was base64 encoded a couple of
 times, it decodes back to `Charix!2#4%6&8(0`. 

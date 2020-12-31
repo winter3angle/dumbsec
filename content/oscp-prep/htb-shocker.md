@@ -1,12 +1,12 @@
 Title: HTB Shocker box writeup
-Tags: oscp, htb
+Tags: oscp, htb, shellshock, sudo
 Summary: Rooting the box using notorious vulnerability in bash
 Date: 2020-09-11 15:00
 Status: published
 
 # Enumeration
 nmap sS all range as always:
-<pre>
+```text
     Nmap 7.80 scan initiated Fri Sep 11 11:25:24 2020 as: nmap -sS -p- -oA enum/nmap-ss-all shocker.htb
     Nmap scan report for shocker.htb (10.10.10.56)
     Host is up (0.051s latency).
@@ -15,7 +15,7 @@ nmap sS all range as always:
     80/tcp   open  http
     2222/tcp open  EtherNetIP-1
     Nmap done at Fri Sep 11 11:31:30 2020 -- 1 IP address (1 host up) scanned in 366.24 seconds
-</pre>
+```
 Tried to navigate in browser while nmap was scanning, turned out that there's a 
 web server that responds with the same page at IP and at vhost `shocker.htb`.
 OpenSSH listening on usual port TCP 2222:
@@ -23,16 +23,16 @@ OpenSSH listening on usual port TCP 2222:
 ![ssh 22222](/cstatic/htb-shocker/ssh-unusual.png)
 
 No robots.txt or something like this is available, time to spin up the gobuster:
-<pre>
+```text
     /.htpasswd (Status: 403)
     /.htaccess (Status: 403)
     /cgi-bin/ (Status: 403)
     /server-status (Status: 403)
-</pre>
+```
 CGI-BIN looks promising, unfortunately it's not possible to list the content of
 this directory, but it's still worth trying to enumerate it further. Just add some common
 extensions to the wordlist, something like sh, py, pl, php:
-<pre>
+```text
     /.htpasswd (Status: 403)
     /.htpasswd.php (Status: 403)
     /.htaccess (Status: 403)
@@ -44,7 +44,7 @@ extensions to the wordlist, something like sh, py, pl, php:
     /.htaccess.py (Status: 403)
     /.htaccess.php (Status: 403)
     /user.sh (Status: 200)
-</pre>
+```
 Got it! Something interesting in there. Popped out nearly at the end of the run,
 I was almost thinking that nothing could be found in there. This script reporting
 an uptime, at least it's being said so:

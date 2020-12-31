@@ -1,12 +1,12 @@
 Title: HTB Granny box writeup
-Tags: oscp, htb
+Tags: oscp, htb, webdav, cadaver, iis, asp
 Summary: Unusual service on antediluvian box
 Date: 2020-10-06 00:40
 Status: published
 
 # Enumeration
 Only single TCP port considered open:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct  1 11:37:21 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.15
     Nmap scan report for granny.htb (10.10.10.15)
     Host is up (0.060s latency).
@@ -14,9 +14,9 @@ Only single TCP port considered open:
     PORT   STATE SERVICE
     80/tcp open  http
     Nmap done at Thu Oct  1 11:39:10 2020 -- 1 IP address (1 host up) scanned in 109.05 seconds
-</pre>
+```
 Looks like it supports WebDAV:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct  1 11:47:08 2020 as: nmap -sC -A -T4 -p80 -oA enum/nmap-sCAT4-80 10.10.10.15
     Nmap scan report for granny.htb (10.10.10.15)
     Host is up (0.053s latency).
@@ -46,7 +46,7 @@ Looks like it supports WebDAV:
     2   54.80 ms granny.htb (10.10.10.15)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu Oct  1 11:47:44 2020 -- 1 IP address (1 host up) scanned in 43.67 seconds
-</pre>
+```
 Unusual header spotted in webserver response, it might be Microsoft Frontpage:
 
 ![unusual header](/cstatic/htb-granny/mso-header.png)
@@ -56,7 +56,7 @@ We are able to upload files using WebDAV (cadaver used as a client):
 ![webdav upload](/cstatic/htb-granny/cadaver-upload.png)
 
 Meanwhile nikto finished scanning:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: granny.htb
     Target Port: 80
@@ -92,7 +92,7 @@ Meanwhile nikto finished scanning:
     OSVDB-3500: GET /_vti_bin/fpcount.exe: Frontpage counter CGI has been found. FP Server version 97 allows remote users to execute arbitrary system commands, though a vulnerability in this version could not be confirmed. CVE-1999-1376. BID-2252.
     OSVDB-67: POST /_vti_bin/shtml.dll/_vti_rpc: The anonymous FrontPage user is revealed through a crafted POST.
     GET /_vti_bin/_vti_adm/admin.dll: FrontPage/SharePoint file found.
-</pre>
+```
 Proves some hypotheses about target environment. 
 
 # Exploitation

@@ -1,12 +1,12 @@
 Title: HTB Node box writeup
-Tags: oscp, htb
+Tags: oscp, htb, nodejs, os command injection, mongodb
 Summary: Walkthrough for this one
 Date: 2020-09-27 22:00
 Status: published
 
 # Enumeration
 nmap sS all range:
-<pre>
+```text
     Nmap 7.80 scan initiated Fri Sep 25 19:13:46 2020 as: nmap -sS -p- -oA enum/nmap-sS-all 10.10.10.58
     Nmap scan report for node.htb (10.10.10.58)
     Host is up (0.059s latency).
@@ -15,9 +15,9 @@ nmap sS all range:
     22/tcp   open  ssh
     3000/tcp open  ppp
     Nmap done at Fri Sep 25 19:15:45 2020 -- 1 IP address (1 host up) scanned in 119.96 seconds
-</pre>
+```
 Scripted scan of these:
-<pre>
+```text
     Nmap 7.80 scan initiated Fri Sep 25 19:18:55 2020 as: nmap -sC -A -T4 -p22,3000 -oA enum/nmap-sCAT4-open 10.10.10.58
     Nmap scan report for node.htb (10.10.10.58)
     Host is up (0.056s latency).
@@ -44,10 +44,10 @@ Scripted scan of these:
     2   57.76 ms node.htb (10.10.10.58)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Fri Sep 25 19:19:14 2020 -- 1 IP address (1 host up) scanned in 18.92 seconds
-</pre>
+```
 Also tried to scan top 1000 UDP ports, but nothing seems to be available there.
 Whatweb told that about the website at 3000:
-<pre>
+```text
     http://node.htb:3000 [200 OK] Bootstrap
     Country[RESERVED][ZZ]
     HTML5, IP[10.10.10.58]
@@ -55,7 +55,7 @@ Whatweb told that about the website at 3000:
     Title[MyPlace]
     X-Powered-By[Express]
     X-UA-Compatible[IE=edge]
-</pre>
+```
 Looks like web API exposes some interesting info about users:
 
 ![mark info](/cstatic/htb-node/api-mark.png)
@@ -90,10 +90,10 @@ GET request to `/api/users` will reveal all the available users info. Response:
 ]
 ```
 Some non-privileges user passwords are:
-<pre>
+```text
 f0e2e750791171b0391b682ec35835bd6a5c3f7c8d1d0191451ec77b4d75f240:spongebob
 de5a1adf4fedcce1533915edc60177547f1057b61b7119fd130e1f7428705f73:snowflake
-</pre>
+```
 
 # Exploitation
 The hash for `myP14ceAdm1nAcc0uNT` account is 'googlable' and maps to `manchester`.
@@ -126,7 +126,7 @@ There is interesting process running running `/var/scheduler/app.js`:
 
 Looks like it's a way to execute code as tom:
 ```javascript
-iconst exec        = require('child_process').exec;
+const exec        = require('child_process').exec;
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID    = require('mongodb').ObjectID;
 const url         = 'mongodb://mark:5AYRft73VtFpc84k@localhost:27017/scheduler?authMechanism=DEFAULT&authSource=scheduler';

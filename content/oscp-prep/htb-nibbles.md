@@ -1,12 +1,12 @@
 Title: HTB Nibbles box writeup
-Tags: oscp, htb
+Tags: oscp, htb, nibbleblog, sudo
 Summary: Another walkthrough for a linux box
 Date: 2020-09-07 14:00
 Status: published
 
 # Enumeration
 Started with full nmap sS scan, as always on htb:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep  6 12:27:03 2020 as: nmap -sS -p- -oA nmap-ss-all 10.10.10.75
     Nmap scan report for nibbles.htb (10.10.10.75)
     Host is up (0.061s latency).
@@ -15,10 +15,10 @@ Started with full nmap sS scan, as always on htb:
     22/tcp open  ssh
     80/tcp open  http
     Nmap done at Sun Sep  6 12:27:58 2020 -- 1 IP address (1 host up) scanned in 54.83 seconds
-</pre>
+```
 Not much services in there. Nevertheless it's better to get as much info as we can, so scripted scan
 will be useful:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep  6 12:28:25 2020 as: nmap -sC -A -T4 -p22,80 -oA nmap-open-at4 10.10.10.75
     Nmap scan report for nibbles.htb (10.10.10.75)
     Host is up (0.053s latency).
@@ -42,14 +42,14 @@ will be useful:
     2   53.08 ms nibbles.htb (10.10.10.75)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Sun Sep  6 12:28:38 2020 -- 1 IP address (1 host up) scanned in 13.19 seconds
-</pre>
+```
 
 Web content at the root doesn't seem useful in general, but there's an interesting commentin source code:
 
 ![nibbleblog comment entry](/cstatic/htb-nibbles/nibbleblog-comment.png)
 
 Gobuster'd `/nibbleblog` using big.txt wordlist from dirb:
-<pre>
+```text
     /.htpasswd (Status: 403)
     /.htpasswd.php (Status: 403)
     /.htaccess (Status: 403)
@@ -66,10 +66,10 @@ Gobuster'd `/nibbleblog` using big.txt wordlist from dirb:
     /sitemap.php (Status: 200)
     /themes (Status: 301)
     /update.php (Status: 200)
-</pre>
+```
 
 Also ran nikto on the same target:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: nibbles.htb
     Target Port: 80
@@ -88,7 +88,7 @@ Also ran nikto on the same target:
     OSVDB-3092: GET /nibbleblog/README: README file found.
     OSVDB-3092: GET /nibbleblog/install.php: install.php file found.
     OSVDB-3092: GET /nibbleblog/LICENSE.txt: License file found may identify site software.
-</pre>
+```
 
 Nibbleblog version determined:
 

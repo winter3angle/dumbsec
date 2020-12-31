@@ -1,12 +1,12 @@
 Title: HTB Grandpa box writeup
-Tags: oscp, htb
+Tags: oscp, htb, iis
 Summary: Manually rooting ancient box using well-known RCE
 Date: 2020-10-23 17:00
 Status: published
 
 # Enumeration
 Only HTTP available:
-<pre>
+```text
     Nmap 7.80 scan initiated Wed Oct 21 23:10:56 2020 as: nmap -sS -p- -v -oA enum/nmap-ss-all 10.10.10.14
     Nmap scan report for grandpa.htb (10.10.10.14)
     Host is up (0.053s latency).
@@ -15,9 +15,9 @@ Only HTTP available:
     80/tcp open  http
     Read data files from: /usr/bin/../share/nmap
     Nmap done at Wed Oct 21 23:12:51 2020 -- 1 IP address (1 host up) scanned in 115.59 seconds
-</pre>
+```
 This deployment supports WebDAV, just like `Granny` machine:
-<pre>
+```text
     Nmap 7.80 scan initiated Wed Oct 21 23:14:53 2020 as: nmap -sC -A -T4 -sV -p80 -oA enum/nmap-sCVAT4-open 10.10.10.14
     Nmap scan report for grandpa.htb (10.10.10.14)
     Host is up (0.053s latency).
@@ -36,7 +36,7 @@ This deployment supports WebDAV, just like `Granny` machine:
     Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
     Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Wed Oct 21 23:15:02 2020 -- 1 IP address (1 host up) scanned in 8.51 seconds
-</pre>
+```
 It doesn't allow to list files (or there aren't any) or to upload files, like
 it was done in the `Granny` machine, so there probably should be some other
 way in.
@@ -168,7 +168,7 @@ Finally the shell popped out:
 Privilege escalation was the same as for `Grandpa` box. I just grabbed
 [this exploit](https://www.exploit-db.com/exploits/37755) and tinkered it a bit.
 Here's the diff:
-<pre>
+```text
     78c78
     < typedef DWORD NTSTATUS;
     ---
@@ -182,7 +182,7 @@ Here's the diff:
     \ No newline at end of file
     ---
     > }
-</pre>
+```
 Compiled with 
 `i686-w64-mingw32-gcc-win32 -I /usr/share/mingw-w64/include/ 37755.c -o a.exe`.
 Fortunately spawned SYSTEM meterpreter session:

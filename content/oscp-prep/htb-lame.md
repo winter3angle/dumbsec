@@ -1,12 +1,12 @@
 Title: HTB Lame box writeup
-Tags: oscp, htb
+Tags: oscp, htb, nmap, distccd
 Summary: Continue writeups for retired OSCP alike machines
 Date: 2020-09-03 15:00
 Status: published
 
 # Enumeration
 nmap sS full TCP range:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Sep  3 11:02:52 2020 as: nmap -sS -p- -oA enum/nmap-ss-all lame.htb
     Nmap scan report for lame.htb (10.10.10.3)
     Host is up (0.063s latency).
@@ -18,9 +18,9 @@ nmap sS full TCP range:
     445/tcp  open  microsoft-ds
     3632/tcp open  distccd
     Nmap done at Thu Sep  3 11:04:46 2020 -- 1 IP address (1 host up) scanned in 114.71 seconds
-</pre>
+```
 And scripted scan for open ones:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Sep  3 11:05:30 2020 as: nmap -sC -A -T4 -p21,22,139,445,3632 -oA enum/nmap-scripted-open lame.htb
     Nmap scan report for lame.htb (10.10.10.3)
     Host is up (0.060s latency).
@@ -72,7 +72,7 @@ And scripted scan for open ones:
     2   59.85 ms lame.htb (10.10.10.3)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu Sep  3 11:06:26 2020 -- 1 IP address (1 host up) scanned in 56.85 seconds
-</pre>
+```
 
 FTP looks interesting and even allows anonymous login, but there aren't enough permissions to upload files
 and seems that there aren't any files available for listing. Moreover, this version of vsFTPd is known to

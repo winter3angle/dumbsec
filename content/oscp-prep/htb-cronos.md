@@ -1,12 +1,12 @@
 Title: HTB Cronos writeup
-Tags: oscp, htb
+Tags: oscp, htb, cron, dns, dns zone transfer, pspy
 Summary: Pwning another retired box from TJNull's list
 Date: 2020-09-02 15:00
 Status: published
 
 # Enumeration
 Started with `nmap -sS` full TCP range:
-<pre>
+```text
 Nmap 7.80 scan initiated Wed Sep  2 11:14:46 2020 as: nmap -sS -p- -oA nmap-ss cronos.htb
 Nmap scan report for cronos.htb (10.10.10.13)
 Host is up (0.066s latency).
@@ -17,9 +17,9 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done at Wed Sep  2 11:17:20 2020 -- 1 IP address (1 host up) scanned in 153.96 seconds
-</pre>
+```
 Not so much services, at least no rabbit holes and dead ends I hope. Proceed with `-A`:
-<pre>
+```text
 Nmap 7.80 scan initiated Wed Sep  2 11:19:25 2020 as: nmap -sC -A -p22,53,80 -oA nmap-AT4-22-53-80 cronos.htb
 Nmap scan report for cronos.htb (10.10.10.13)
 Host is up (0.059s latency).
@@ -49,7 +49,7 @@ HOP RTT      ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done at Wed Sep  2 11:19:44 2020 -- 1 IP address (1 host up) scanned in 20.08 seconds
-</pre>
+```
 DNS server is pretty unusual to be open on web box, worth trying common enumeration methods for it.
 
 ![axfr](/cstatic/htb-cronos/axfr.png)

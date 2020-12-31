@@ -1,12 +1,12 @@
 Title: HTB Arctic box writeup
-Tags: oscp, htb
+Tags: oscp, htb, coldfusion, juicypotato
 Summary: Per ColdFusion aspera ad another empty outdated box
 Date: 2020-10-13 21:50
 Status: published
 
 # Enumeration
 Looks like we've got some ColdFusion there:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct  8 22:46:43 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.11
     Nmap scan report for arctic.htb (10.10.10.11)
     Host is up (0.062s latency).
@@ -16,10 +16,10 @@ Looks like we've got some ColdFusion there:
     8500/tcp  open  fmtp
     49154/tcp open  unknown
     Nmap done at Thu Oct  8 22:49:58 2020 -- 1 IP address (1 host up) scanned in 194.82 seconds
-</pre>
+```
 
 Scripted scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu Oct  8 22:51:06 2020 as: nmap -sC -A -T4 -p135,8500,49154 -oA enum/nmap-scAT4-open 10.10.10.11
     Nmap scan report for arctic.htb (10.10.10.11)
     Host is up (0.056s latency).
@@ -41,7 +41,7 @@ Scripted scan:
     2   59.28 ms arctic.htb (10.10.10.11)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu Oct  8 22:53:40 2020 -- 1 IP address (1 host up) scanned in 154.11 seconds
-</pre>
+```
 Extensions and the error tend to prove hypothesis about ColdFusion instance:
 
 ![ColdFusion err](/cstatic/htb-arctic/appcfm-error.png)

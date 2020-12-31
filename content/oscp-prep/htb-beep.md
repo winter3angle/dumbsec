@@ -1,12 +1,12 @@
 Title: HTB Beep box writeup
-Tags: oscp, htb
+Tags: oscp, htb, elastix, webmin
 Summary: Yet another retired box
 Date: 2020-09-01 16:00
 Status: published
 
 # Enumeration
 This time I started with only top 1000 ports to scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu May 14 11:36:21 2020 as: nmap -sS --top-ports=1000 -oN enum/nmap-sS-top1k 10.10.10.7
     Nmap scan report for 10.10.10.7
     Host is up (0.064s latency).
@@ -24,9 +24,9 @@ This time I started with only top 1000 ports to scan:
     3306/tcp  open  mysql
     4445/tcp  open  upnotifyp
     10000/tcp open  snet-sensor-mgmt
-</pre>
+```
 Whoa, that's a bunch, especially compared with previous boxes. But that's okay, just keep on pushing according to methodology. Let's run script scan on open ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Thu May 14 11:38:42 2020 as: nmap -sC -sV -O -p 22,25,80,110,111,143,443,993,995,3306,445,10000 
       -oN enum/nmap-sCV-O-discovered-tcp 10.10.10.7
     Nmap scan report for 10.10.10.7
@@ -77,7 +77,7 @@ Whoa, that's a bunch, especially compared with previous boxes. But that's okay, 
     |_clock-skew: 1m22s
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Thu May 14 11:42:21 2020 -- 1 IP address (1 host up) scanned in 219.79 seconds
-</pre>
+```
 A bit of manual inspection revealed that there is an Elastix installation on this box, looks like
 that bunch of other ports are related to this one in some way. Almost immediately I have found out
 that there are some vulns known to exploit-db and one including [LFI](https://www.exploit-db.com/exploits/37637).

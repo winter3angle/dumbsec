@@ -1,12 +1,12 @@
 Title: HTB Solidstate box writeup
-Tags: oscp, htb
+Tags: oscp, htb, cron, james, pop3, rbash
 Summary: A very lab-alike box
 Date: 2020-09-21 15:00
 Status: published
 
 # Enumeration
 As always, starting with the full TCP range scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep 20 20:28:25 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.51
     Nmap scan report for solidstate.htb (10.10.10.51)
     Host is up (0.056s latency).
@@ -19,9 +19,9 @@ As always, starting with the full TCP range scan:
     119/tcp  open  nntp
     4555/tcp open  rsip
     Nmap done at Sun Sep 20 20:29:04 2020 -- 1 IP address (1 host up) scanned in 38.35 seconds
-</pre>
+```
 And continuing with open ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Sun Sep 20 20:30:19 2020 as: nmap -sC -A -T4 -p22,25,80,110,119,4555 -oA enum/nmap-sCAT4-open 10.10.10.51
     Nmap scan report for solidstate.htb (10.10.10.51)
     Host is up (0.054s latency).
@@ -50,7 +50,7 @@ And continuing with open ports:
     2   54.37 ms solidstate.htb (10.10.10.51)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Sun Sep 20 20:30:47 2020 -- 1 IP address (1 host up) scanned in 28.15 seconds
-</pre>
+```
 
 # Exploitation
 After some manual inspection of these services, it turned out that creds for James admin console are `root:root`:

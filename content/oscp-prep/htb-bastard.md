@@ -1,12 +1,12 @@
 Title: HTB Bastard box writeup
-Tags: oscp, htb
+Tags: oscp, htb, drupal, drupalgeddon
 Summary: Presenting newb way to privesc
 Date: 2020-09-30 17:00
 Status: published
 
 # Enumeration
 Traditional full TCP range scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Sep 29 13:05:41 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.9
     Nmap scan report for bastard.htb (10.10.10.9)
     Host is up (0.068s latency).
@@ -16,9 +16,9 @@ Traditional full TCP range scan:
     135/tcp   open  msrpc
     49154/tcp open  unknown
     Nmap done at Tue Sep 29 13:08:17 2020 -- 1 IP address (1 host up) scanned in 155.78 seconds
-</pre>
+```
 As always followed by general scripted scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Sep 29 13:54:54 2020 as: nmap -sC -A -T4 -p80,135,49153 -oA enum/nmap-sCAT4-open 10.10.10.9
     Nmap scan report for bastard.htb (10.10.10.9)
     Host is up (0.057s latency).
@@ -50,9 +50,9 @@ As always followed by general scripted scan:
     2   57.44 ms bastard.htb (10.10.10.9)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Tue Sep 29 13:55:18 2020 -- 1 IP address (1 host up) scanned in 24.32 seconds
-</pre>
+```
 Some available entries from robots.txt:
-<pre>
+```text
     Starting Parsero v0.75 (https://github.com/behindthefirewalls/Parsero) at 09/30/20 11:50:30
     Parsero scan report for 10.10.10.9
     http://10.10.10.9/?q=comment/reply/ 200 OK
@@ -74,7 +74,7 @@ Some available entries from robots.txt:
     http://10.10.10.9/CHANGELOG.txt 200 OK
     http://10.10.10.9/MAINTAINERS.txt 200 OK
     http://10.10.10.9/INSTALL.sqlite.txt 200 OK
-</pre>
+```
 I'm no expert in Drupal by any means, but this list doesn't look unusual at a
 glance. Some useful hint is that according to `CHANGELOG.txt` Drupal version is
 `7.54`, which is vulnerable to notorious Drupalgeddon RCE vuln. It might require

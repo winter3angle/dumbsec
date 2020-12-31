@@ -1,12 +1,12 @@
 Title: HTB Bashed box writeup
-Tags: oscp, htb
+Tags: oscp, htb, cron
 Summary: Walkthrough for this one
 Date: 2020-09-01 15:00
 Status: published
 
 # Enumeration
 Let's start with -sS all TCP range since we are not limited in traffic and not afraid of IDS:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue May 12 19:05:00 2020 as: nmap -sS -p- -oA enum/nmap-ss-t-all 10.10.10.68
     Nmap scan report for bashed.htb (10.10.10.68)
     Host is up (0.061s latency).
@@ -14,7 +14,7 @@ Let's start with -sS all TCP range since we are not limited in traffic and not a
     PORT   STATE SERVICE
     80/tcp open  http
     Nmap done at Tue May 12 19:06:30 2020 -- 1 IP address (1 host up) scanned in 90.26 seconds
-</pre>
+```
 Not so much eh. I tried to run sU scan in the background and found nothing interesting. Looks like the webserver is
 the way in. Spin up gobuster scan to find something interesting and while it's running let's go and see what's
 interesting is there. Both `10.10.10.68` and `bashed.htb` which I added to `/etc/hosts`, leads to the same page
@@ -24,7 +24,7 @@ with some interesting info:
 
 There might be that shell somewhere in there. I also manually inspected source code of this page to try to find
 some interesting details, but found only usual stuff like `/images` directory. At the time gobusted did his work:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /css (Status: 301)
@@ -35,7 +35,7 @@ some interesting details, but found only usual stuff like `/images` directory. A
     /php (Status: 301)
     /server-status (Status: 403)
     /uploads (Status: 301)
-</pre>
+```
 `/dev` entry looks very promising, especially with the fact that blog admin stated that he was developing php shell
 on this server. Indeed this dir is listable and there are some web phpbash shells in there:
 

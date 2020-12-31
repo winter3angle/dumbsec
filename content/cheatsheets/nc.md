@@ -1,7 +1,7 @@
 Title: Yet another netcat cheatsheet
 Summary: handy netcat commands
 Category: cheatsheets
-Tags: nettool, pwk
+Tags: nettool, pwk, tools
 Date: 2020-03-23 13:15
 Status: published
 

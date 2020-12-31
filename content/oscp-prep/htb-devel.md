@@ -1,12 +1,12 @@
 Title: HTB Devel box writeup
-Tags: oscp, htb
+Tags: oscp, htb, asp, ftp
 Summary: Another straightforward windows box
 Date: 2020-09-28 15:00
 Status: published
 
 # Enumeration
 As usual full nmap sS scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Sep 28 10:10:15 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.5
     Nmap scan report for devel.htb (10.10.10.5)
     Host is up (0.055s latency).
@@ -15,9 +15,9 @@ As usual full nmap sS scan:
     21/tcp open  ftp
     80/tcp open  http
     Nmap done at Mon Sep 28 10:12:24 2020 -- 1 IP address (1 host up) scanned in 128.64 seconds
-</pre>
+```
 Following by the scripted scan:
-<pre>
+```text
     Nmap 7.80 scan initiated Mon Sep 28 10:19:06 2020 as: nmap -sC -A -T4 -p21,80 -oA enum/nmap-sCAT4-open 10.10.10.5
     Nmap scan report for devel.htb (10.10.10.5)
     Host is up (0.053s latency).
@@ -48,7 +48,7 @@ Following by the scripted scan:
     2   53.99 ms devel.htb (10.10.10.5)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Mon Sep 28 10:19:19 2020 -- 1 IP address (1 host up) scanned in 13.79 seconds
-</pre>
+```
 And that's all that necessary to get foothold.
 
 # Exploitation

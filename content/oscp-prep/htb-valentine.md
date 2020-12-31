@@ -1,12 +1,12 @@
 Title: HTB Valentine box writeup
-Tags: oscp, htb
+Tags: oscp, htb, heartbleed, openssl, tmux, gtfobins
 Summary: Rather interesting PE and notorious branded vulnerability walk into a bar...
 Date: 2020-10-14 01:50
 Status: published
 
 # Enumeration
 Not much network services available there:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Oct 13 22:39:38 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.79
     Nmap scan report for valentine.htb (10.10.10.79)
     Host is up (0.055s latency).
@@ -16,9 +16,9 @@ Not much network services available there:
     80/tcp  open  http
     443/tcp open  https
     Nmap done at Tue Oct 13 22:40:15 2020 -- 1 IP address (1 host up) scanned in 37.15 seconds
-</pre>
+```
 Detailed information:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Oct 13 22:40:39 2020 as: nmap -sC -A -T4 -p22,80,443 -oA enum/nmap-sCAT4-open 10.10.10.79
     Nmap scan report for valentine.htb (10.10.10.79)
     Host is up (0.052s latency).
@@ -52,10 +52,10 @@ Detailed information:
     2   52.62 ms valentine.htb (10.10.10.79)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Tue Oct 13 22:41:00 2020 -- 1 IP address (1 host up) scanned in 21.37 seconds
-</pre>
+```
 
 Nikto was running in parallel:
-<pre>
+```text
     Nikto v2.1.6/2.1.5
     Target Host: valentine.htb
     Target Port: 80
@@ -75,10 +75,10 @@ Nikto was running in parallel:
     OSVDB-3092: GET /dev/: This might be interesting...
     GET Server may leak inodes via ETags, header found with file /icons/README, inode: 534222, size: 5108, mtime: Tue Aug 28 14:48:10 2007
     OSVDB-3233: GET /icons/README: Apache default file found.
-</pre>
+```
 
 Along with gobuster:
-<pre>
+```text
     /.htpasswd (Status: 403)
     /.htaccess (Status: 403)
     /cgi-bin/ (Status: 403)
@@ -87,7 +87,7 @@ Along with gobuster:
     /encode (Status: 200)
     /index (Status: 200)
     /server-status (Status: 403)
-</pre>
+```
 
 There's an interesting picture right in the index page. It reminds me of 
 notorious Heartbleed bug in OpenSSL, it has been branded with this logo:
@@ -96,7 +96,7 @@ notorious Heartbleed bug in OpenSSL, it has been branded with this logo:
 
 There's an NSE to check whether host is vulnerable, it seems that heartbleed
 hypothesis is right:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Oct 13 22:54:16 2020 as: nmap -sC -p443 --script=ssl-heartbleed -oA enum/nmap-sc-heartbleed valentine.htb
     Nmap scan report for valentine.htb (10.10.10.79)
     Host is up (0.050s latency).
@@ -114,11 +114,11 @@ hypothesis is right:
     |       http://cvedetails.com/cve/2014-0160/
     |_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0160
     Nmap done at Tue Oct 13 22:54:17 2020 -- 1 IP address (1 host up) scanned in 0.88 seconds
-</pre>
+```
 
 Some interesting files under the `/dev` path, including some RSA private key
 encoded in hex:
-<pre>
+```text
 -----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: AES-128-CBC,AEB88C140F69BF2074788DE24AE48D46
@@ -149,7 +149,7 @@ suLaBMxYKm3+zEDIDveKPNaaWZgEcqxylCC/wUyUXlMJ50Nw6JNVMM8LeCii3OEW
 l0ln9L1b/NXpHjGa8WHHTjoIilB5qNUyywSeTBF2awRlXH9BrkZG4Fc4gdmW/IzT
 RUgZkbMQZNIIfzj1QuilRVBm/F76Y/YMrmnM9k/1xSGIskwCUQ+95CGHJE8MkhD3
 -----END RSA PRIVATE KEY-----
-</pre>
+```
 
 There's a passphrase so we couldn't just get and generate pubkey from this one.
 

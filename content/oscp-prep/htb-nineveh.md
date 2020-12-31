@@ -1,12 +1,12 @@
 Title: HTB Nineveh box writeup
-Tags: oscp, htb
+Tags: oscp, htb, chkrootkit, stego
 Summary: CTFey box writeup
 Date: 2020-09-08 15:00
 Status: published
 
 # Enumeration
 Nmap `-sS` all TCP range:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Sep  8 11:57:11 2020 as: nmap -sS -p- -oA enum/nmap-ss-all 10.10.10.43
     Nmap scan report for nineveh.htb (10.10.10.43)
     Host is up (0.056s latency).
@@ -15,9 +15,9 @@ Nmap `-sS` all TCP range:
     80/tcp  open  http
     443/tcp open  https
     Nmap done at Tue Sep  8 11:59:11 2020 -- 1 IP address (1 host up) scanned in 120.34 seconds
-</pre>
+```
 Nmap `-A -T4 -sC` open ports:
-<pre>
+```text
     Nmap 7.80 scan initiated Tue Sep  8 12:00:57 2020 as: nmap -sC -A -T4 -p80,443 -oA enum/nmap-SCAT4-open 10.10.10.43
     Nmap scan report for nineveh.htb (10.10.10.43)
     Host is up (0.056s latency).
@@ -44,27 +44,27 @@ Nmap `-A -T4 -sC` open ports:
     2   55.08 ms nineveh.htb (10.10.10.43)
     OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done at Tue Sep  8 12:01:18 2020 -- 1 IP address (1 host up) scanned in 21.50 seconds
-</pre>
+```
 Different web resources are on http and https, seems like https server is a way to go since there's only
 a stub page on tcp 80:
 
 ![http stub](/cstatic/htb-nineveh/http-stub-page.png)
 
 Gobustered HTTP root:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /department (Status: 301)
     /server-status (Status: 403)
-</pre>
+```
 
 Gobustered HTTPS root:
-<pre>
+```text
     /.htaccess (Status: 403)
     /.htpasswd (Status: 403)
     /db (Status: 301)
     /server-status (Status: 403)
-</pre>
+```
 
 Interesting comment at the page `/department`:
 
