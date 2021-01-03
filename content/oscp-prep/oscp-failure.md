@@ -102,7 +102,7 @@ exam:
  * Take breaks. I was going out with my dog for three times and it was great.
    Every time I was returing refreshed and full of ideas to try.
  * Take naps. This is necessary but hard for me. Difficult to fall asleep when
-   I'm thinking about some nasty task. Sleeped just about 3.5 hours in total.
+   I'm thinking about some nasty task. Slept just about 3.5 hours in total.
  * Eat well and healthy. Hunger likely is not the expected feeling while taking
    the tough exam.
  * Switch between machines. Proved to be great technique to get out from the
